@@ -29,7 +29,7 @@ public class Menu extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        jPanel1 = new javax.swing.JPanel();
+        menuPanel = new javax.swing.JPanel();
         lcsMenuButton = new javax.swing.JButton();
         knapsackMenuButton = new javax.swing.JButton();
         matrixMenuButton = new javax.swing.JButton();
@@ -78,20 +78,20 @@ public class Menu extends javax.swing.JFrame {
         menuTitle.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
         menuTitle.setText("<html><center>COMP 390: <br> Animating Algorithms</center></html>");
 
-        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
+        org.jdesktop.layout.GroupLayout menuPanelLayout = new org.jdesktop.layout.GroupLayout(menuPanel);
+        menuPanel.setLayout(menuPanelLayout);
+        menuPanelLayout.setHorizontalGroup(
+            menuPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(menuPanelLayout.createSequentialGroup()
                 .add(221, 221, 221)
                 .add(menuLogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(240, Short.MAX_VALUE))
-            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jPanel1Layout.createSequentialGroup()
+            .add(menuPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(menuPanelLayout.createSequentialGroup()
                     .add(149, 149, 149)
-                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(menuPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                         .add(creditsLabel)
-                        .add(jPanel1Layout.createSequentialGroup()
+                        .add(menuPanelLayout.createSequentialGroup()
                             .add(lcsMenuButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                             .add(matrixMenuButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -100,18 +100,18 @@ public class Menu extends javax.swing.JFrame {
                         .add(menuTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(150, 150, 150)))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
+        menuPanelLayout.setVerticalGroup(
+            menuPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(menuPanelLayout.createSequentialGroup()
                 .add(26, 26, 26)
                 .add(menuLogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(488, Short.MAX_VALUE))
-            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jPanel1Layout.createSequentialGroup()
+            .add(menuPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(menuPanelLayout.createSequentialGroup()
                     .add(124, 124, 124)
                     .add(menuTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(64, 64, 64)
-                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(menuPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                         .add(org.jdesktop.layout.GroupLayout.TRAILING, matrixMenuButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(org.jdesktop.layout.GroupLayout.TRAILING, lcsMenuButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(org.jdesktop.layout.GroupLayout.TRAILING, knapsackMenuButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -125,13 +125,13 @@ public class Menu extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(menuPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(9, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(menuPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 1, Short.MAX_VALUE))
         );
 
@@ -140,14 +140,34 @@ public class Menu extends javax.swing.JFrame {
 
     private void lcsMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lcsMenuButtonActionPerformed
         // TODO add your handling code here:
+        
+        this.remove(menuPanel);
+        
+        LCS lcs = new LCS();
+        lcs.menu = menuPanel;
+        lcs.setSize(800, 600);        
+        this.setContentPane(lcs);
+        this.repaint();
     }//GEN-LAST:event_lcsMenuButtonActionPerformed
 
     private void knapsackMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_knapsackMenuButtonActionPerformed
         // TODO add your handling code here:
+        this.remove(menuPanel);
+        
+        MatrixChain matrix = new MatrixChain();
+        matrix.setSize(800, 600);        
+        this.setContentPane(matrix);
+        this.repaint();
     }//GEN-LAST:event_knapsackMenuButtonActionPerformed
 
     private void matrixMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matrixMenuButtonActionPerformed
         // TODO add your handling code here:
+        this.remove(menuPanel);
+        
+        Knapsack knapsack = new Knapsack();
+        knapsack.setSize(800, 600);        
+        this.setContentPane(knapsack);
+        this.repaint();
     }//GEN-LAST:event_matrixMenuButtonActionPerformed
 
     /**
@@ -184,12 +204,12 @@ public class Menu extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel creditsLabel;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton knapsackMenuButton;
     private javax.swing.JButton lcsMenuButton;
     private javax.swing.JButton matrixMenuButton;
     private javax.swing.JLabel menuLogo;
+    private javax.swing.JPanel menuPanel;
     private javax.swing.JLabel menuTitle;
     // End of variables declaration//GEN-END:variables
 }

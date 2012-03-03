@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * TODO: License Headers
  */
 package animating.algorithms;
 
@@ -9,7 +8,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author ash
+ * @author Ashley Connor (ash.connor@gmail.com)
  */
 public class main {
 
@@ -21,19 +20,19 @@ public class main {
         // the screen.
         
         Menu menu = new Menu();
-        menu.setLocationRelativeTo(null);
         menu.setSize(new Dimension(800, 600));
+        menu.setLocationRelativeTo(null);
         menu.setVisible(true);
         
         JPanel jp = (JPanel) menu.getContentPane();
         menu.remove(jp);
         
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
         
-        LCS lcs = new LCS();
-        lcs.setSize(new Dimension(800, 600));        
-        menu.setContentPane(lcs);
-        menu.repaint();
+//        LCS lcs = new LCS();
+//        lcs.setSize(new Dimension(800, 600));        
+//        menu.setContentPane(lcs);
+//        menu.repaint();
         
     }
 }
