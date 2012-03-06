@@ -42,7 +42,8 @@ public class Menu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Animating Algorithms");
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(800, 600));
+
+        menuPanel.setPreferredSize(new java.awt.Dimension(800, 600));
 
         lcsMenuButton.setFocusPainted(false);
         lcsMenuButton.setLabel("<html><center>Longest Common <br>Subsequence</center></html>");
@@ -85,7 +86,7 @@ public class Menu extends javax.swing.JFrame {
             .add(menuPanelLayout.createSequentialGroup()
                 .add(221, 221, 221)
                 .add(menuLogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addContainerGap(249, Short.MAX_VALUE))
             .add(menuPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(menuPanelLayout.createSequentialGroup()
                     .add(149, 149, 149)
@@ -105,7 +106,7 @@ public class Menu extends javax.swing.JFrame {
             .add(menuPanelLayout.createSequentialGroup()
                 .add(26, 26, 26)
                 .add(menuLogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(488, Short.MAX_VALUE))
+                .addContainerGap(489, Short.MAX_VALUE))
             .add(menuPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(menuPanelLayout.createSequentialGroup()
                     .add(124, 124, 124)
@@ -126,13 +127,13 @@ public class Menu extends javax.swing.JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(menuPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(menuPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(0, 1, Short.MAX_VALUE))
+                .add(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -153,10 +154,11 @@ public class Menu extends javax.swing.JFrame {
     private void knapsackMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_knapsackMenuButtonActionPerformed
         // TODO add your handling code here:
         this.remove(menuPanel);
+        this.resize(1024,768);
         
-        MatrixChain matrix = new MatrixChain();
-        matrix.setSize(800, 600);        
-        this.setContentPane(matrix);
+        Knapsack knapsack = new Knapsack();
+        knapsack.setSize(1024, 768);        
+        this.setContentPane(knapsack);
         this.repaint();
     }//GEN-LAST:event_knapsackMenuButtonActionPerformed
 
@@ -164,9 +166,9 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.remove(menuPanel);
         
-        Knapsack knapsack = new Knapsack();
-        knapsack.setSize(800, 600);        
-        this.setContentPane(knapsack);
+        MatrixChain matrix = new MatrixChain();
+        matrix.setSize(800, 600);        
+        this.setContentPane(matrix);
         this.repaint();
     }//GEN-LAST:event_matrixMenuButtonActionPerformed
 

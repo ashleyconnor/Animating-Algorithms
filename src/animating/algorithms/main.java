@@ -3,9 +3,6 @@
  */
 package animating.algorithms;
 
-import java.awt.Dimension;
-import javax.swing.JPanel;
-
 /**
  *
  * @author Ashley Connor (ash.connor@gmail.com)
@@ -20,19 +17,9 @@ public class main {
         // the screen.
         
         Menu menu = new Menu();
-        menu.setSize(new Dimension(800, 600));
+        menu.setSize(800, 600);
         menu.setLocationRelativeTo(null);
         menu.setVisible(true);
-        
-        JPanel jp = (JPanel) menu.getContentPane();
-        menu.remove(jp);
-        
-        //Thread.sleep(10000);
-        
-//        LCS lcs = new LCS();
-//        lcs.setSize(new Dimension(800, 600));        
-//        menu.setContentPane(lcs);
-//        menu.repaint();
         
     }
 }
