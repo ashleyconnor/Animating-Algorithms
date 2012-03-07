@@ -10,6 +10,8 @@ package animating.algorithms;
  */
 public class KnapsackAlgorithm {
     
+    int capacity;
+    
     
     
 }

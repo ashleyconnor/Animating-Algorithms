@@ -143,6 +143,7 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         this.remove(menuPanel);
+        this.setTitle("Lowest Common Subsequence Algorithm");
         
         LCS lcs = new LCS();
         lcs.menu = menuPanel;
@@ -155,6 +156,8 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.remove(menuPanel);
         this.resize(1024,768);
+        this.setLocationRelativeTo(null);
+        this.setTitle("Knapsack (0,1) Algorithm");
         
         Knapsack knapsack = new Knapsack();
         knapsack.setSize(1024, 768);        
@@ -165,6 +168,7 @@ public class Menu extends javax.swing.JFrame {
     private void matrixMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matrixMenuButtonActionPerformed
         // TODO add your handling code here:
         this.remove(menuPanel);
+        this.setTitle("Matrix Chain Multiplication Algorithm");
         
         MatrixChain matrix = new MatrixChain();
         matrix.setSize(800, 600);        

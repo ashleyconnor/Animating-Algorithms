@@ -10,4 +10,6 @@ package animating.algorithms;
  */
 public class MatrixChainAlgorithm {
     
+    
+    
 }
