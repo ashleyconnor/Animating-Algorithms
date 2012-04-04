@@ -5,7 +5,10 @@
 package animating.algorithms;
 
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -17,8 +20,10 @@ public class Knapsack extends javax.swing.JPanel {
     
     
     //attributes
-    int speed;
-    DefaultListModel model;
+    int psuedoline, speed, capacity;
+    ArrayList<Integer> valueList, weightList;
+    DefaultListModel ListModel;
+    static boolean TEST = true;
     
     /**
      * Creates new form Knapsack
@@ -26,11 +31,16 @@ public class Knapsack extends javax.swing.JPanel {
     public Knapsack() {
         
         //init attributes
+        psuedoline = 0;
         speed = 50;
-        model = new DefaultListModel();
+        ListModel = new DefaultListModel();
+        valueList = new ArrayList<Integer>();
+        weightList = new ArrayList<Integer>();
         
         //init GUI
         initComponents();
+        
+        //set custom renderer for pseduocode table
         jTable2.setDefaultRenderer(String.class, new CustomRenderer());
     }
     
@@ -67,6 +77,8 @@ public class Knapsack extends javax.swing.JPanel {
         weightSpinner = new javax.swing.JSpinner();
         removeButton = new javax.swing.JButton();
         resetButton = new javax.swing.JButton();
+        weightLabel1 = new javax.swing.JLabel();
+        capacitySpinner = new javax.swing.JSpinner();
         cancelButton = new javax.swing.JButton();
         startButton = new javax.swing.JButton();
 
@@ -184,7 +196,7 @@ public class Knapsack extends javax.swing.JPanel {
         pseudoCodePanelLayout.setVerticalGroup(
             pseudoCodePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(pseudoCodePanelLayout.createSequentialGroup()
-                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -295,7 +307,7 @@ public class Knapsack extends javax.swing.JPanel {
         tablePanelLayout.setVerticalGroup(
             tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(tablePanelLayout.createSequentialGroup()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -309,17 +321,17 @@ public class Knapsack extends javax.swing.JPanel {
             }
         });
 
-        inputValueList.setModel(model);
+        inputValueList.setModel(ListModel);
         inputValueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         inputValueScrollPane.setViewportView(inputValueList);
 
         valueLabel.setText("Value:");
 
-        valueSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), null, Integer.valueOf(100), Integer.valueOf(1)));
+        valueSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), null, Integer.valueOf(100), Integer.valueOf(1)));
 
         weightLabel.setText("Weight:");
 
-        weightSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), null, Integer.valueOf(100), Integer.valueOf(1)));
+        weightSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), null, Integer.valueOf(100), Integer.valueOf(1)));
 
         removeButton.setText("Remove");
         removeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -335,6 +347,10 @@ public class Knapsack extends javax.swing.JPanel {
             }
         });
 
+        weightLabel1.setText("Capacity:");
+
+        capacitySpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), null, Integer.valueOf(100), Integer.valueOf(1)));
+
         org.jdesktop.layout.GroupLayout userInputPanelLayout = new org.jdesktop.layout.GroupLayout(userInputPanel);
         userInputPanel.setLayout(userInputPanelLayout);
         userInputPanelLayout.setHorizontalGroup(
@@ -342,38 +358,44 @@ public class Knapsack extends javax.swing.JPanel {
             .add(userInputPanelLayout.createSequentialGroup()
                 .add(6, 6, 6)
                 .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(inputValueScrollPane)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, userInputPanelLayout.createSequentialGroup()
+                        .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(userInputPanelLayout.createSequentialGroup()
+                                .add(valueLabel)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(valueSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(userInputPanelLayout.createSequentialGroup()
+                                .add(weightLabel)
+                                .add(62, 62, 62)
+                                .add(weightSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 133, Short.MAX_VALUE)
+                        .add(weightLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 60, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(capacitySpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(userInputPanelLayout.createSequentialGroup()
-                        .add(valueLabel)
+                        .add(addButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(removeButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(valueSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(weightLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(weightSpinner)
-                        .add(116, 116, 116))
-                    .add(userInputPanelLayout.createSequentialGroup()
-                        .add(inputValueScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
-            .add(userInputPanelLayout.createSequentialGroup()
-                .add(40, 40, 40)
-                .add(addButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(removeButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(resetButton)
-                .add(0, 0, Short.MAX_VALUE))
+                        .add(resetButton)))
+                .addContainerGap())
         );
         userInputPanelLayout.setVerticalGroup(
             userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(userInputPanelLayout.createSequentialGroup()
-                .add(inputValueScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(inputValueScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(valueLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 28, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, capacitySpinner, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                     .add(valueSpinner)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, weightSpinner)
-                    .add(weightLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 28, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
+                    .add(weightLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 28, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(weightLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 28, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, weightSpinner, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(addButton)
                     .add(removeButton)
@@ -408,36 +430,35 @@ public class Knapsack extends javax.swing.JPanel {
                         .add(pseudoCodePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(speedPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
-                            .add(userInputPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                            .add(speedPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                            .add(userInputPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                             .add(layout.createSequentialGroup()
                                 .add(cancelButton)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(startButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 75, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(tablePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)))
+                        .add(tablePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(pseudoCodePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(calculationsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(calculationsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(pseudoCodePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(tablePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
-                        .add(64, 64, 64))
-                    .add(layout.createSequentialGroup()
                         .add(speedPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(34, 34, 34)
                         .add(userInputPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 277, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(cancelButton)
-                            .add(startButton))
-                        .add(0, 0, Short.MAX_VALUE))))
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(tablePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(cancelButton)
+                    .add(startButton))
+                .add(0, 53, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -447,14 +468,40 @@ public class Knapsack extends javax.swing.JPanel {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        // TODO start the thread and repaint the gui
+       
+        //if started empty use test data
+        enterTestData();
+        
+        //check if there are values in the arrays, display error if not
+        if(valueList.isEmpty() || weightList.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You cannot run the algorithm without values.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        else if(valueList.size() < 2) {
+            JOptionPane.showMessageDialog(this, "You need to have more than 1 weight/value.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        else {
+
+            // TODO start the thread and repaint the gui
+            capacity = Integer.parseInt(capacitySpinner.getValue().toString());
+            System.out.println("" + capacity);
+        
+            KnapsackAlgorithm ka = new KnapsackAlgorithm(jTable1, valueList, weightList, capacity);
+            ka.run();
+            jTable1.getTableHeader().setResizingAllowed(false);
+        }
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // add visual representation to jlist and add to alogrithm model
-        model.addElement("Value: " + valueSpinner.getValue() + ", Weight: " + weightSpinner.getValue());
+        Integer value = (Integer) valueSpinner.getValue();
+        Integer weight = (Integer) weightSpinner.getValue();
         
-        //TODO add to array for algorithm
+        ListModel.addElement("Value: " + valueSpinner.getValue() + ", Weight: " + weightSpinner.getValue());
+             
+        valueList.add(value);
+        weightList.add(weight);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
@@ -462,21 +509,28 @@ public class Knapsack extends javax.swing.JPanel {
         // if an item is not selected then remove the last one
         // else remove the selected item        
         if(inputValueList.isSelectionEmpty()) {
-            int position = model.getSize() - 1;
-            if(position >= 0)
-                model.remove(position);
+            int position = ListModel.getSize() - 1;
+            if(position >= 0) {
+                ListModel.remove(position);
+                valueList.remove(position);
+                weightList.remove(position);
+            }
         }
         else {
             int[] selected = inputValueList.getSelectedIndices();
-            model.removeElementAt(selected[0]);
+            ListModel.removeElementAt(selected[0]);
+            
+            for (int i = 0; i < selected.length; i++) {
+                valueList.remove(i);
+                weightList.remove(i);
+            }
         }
-        
-        //TODO remove from algorithm array
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        
-        model.clear();
+        ListModel.clear();
+        valueList.clear();
+        weightList.clear();
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void speedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_speedSliderStateChanged
@@ -489,6 +543,7 @@ public class Knapsack extends javax.swing.JPanel {
     private javax.swing.JButton addButton;
     private javax.swing.JPanel calculationsPanel;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JSpinner capacitySpinner;
     private javax.swing.JList inputValueList;
     private javax.swing.JScrollPane inputValueScrollPane;
     private javax.swing.JScrollPane jScrollPane2;
@@ -508,20 +563,63 @@ public class Knapsack extends javax.swing.JPanel {
     private javax.swing.JLabel valueLabel;
     private javax.swing.JSpinner valueSpinner;
     private javax.swing.JLabel weightLabel;
+    private javax.swing.JLabel weightLabel1;
     private javax.swing.JSpinner weightSpinner;
     // End of variables declaration//GEN-END:variables
 
+    
+    public int getPsuedoCodeLine() {
+        
+        return psuedoline;
+    }
+    
+    public void setPsuedoCodeLine(int line) {
+        
+        psuedoline = line;
+    }
+    
+    public void incPseudoCodeLine() {
+    
+        psuedoline++;
+    }
+
+    private void enterTestData() {
+        
+        if(valueList.isEmpty() && weightList.isEmpty()) {
+            //Test data
+            capacity = 18;
+
+            valueList.add(null);
+            valueList.add(12);
+            valueList.add(10);
+            valueList.add(8);
+            valueList.add(11);
+            valueList.add(14);
+            valueList.add(7);
+            valueList.add(9);
+
+            weightList.add(null);
+            weightList.add(4);
+            weightList.add(6);
+            weightList.add(5);
+            weightList.add(7);
+            weightList.add(3);
+            weightList.add(1);
+            weightList.add(6);
+        }
+    }
+    
 class CustomRenderer extends DefaultTableCellRenderer 
 {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
-        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        //System.out.println(row);
-        //System.out.println(column);
-        if(column == 0 && row == 1)
-            c.setBackground(new java.awt.Color(255, 72, 72));
-        return c;
+            JLabel d = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            if((row == psuedoline) && (column == 0))
+                d.setBackground(new java.awt.Color(255, 72, 72));
+            else
+                d.setBackground(null);
+            return d;
         }
     }
 
