@@ -6,6 +6,8 @@ package animating.algorithms;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,7 +25,8 @@ public class Knapsack extends javax.swing.JPanel {
     int psuedoline, speed, capacity;
     ArrayList<Integer> valueList, weightList;
     DefaultListModel ListModel;
-    static boolean TEST = true;
+    KnapsackAlgorithm ka;
+    ExecutorService executor;
     
     /**
      * Creates new form Knapsack
@@ -33,6 +36,7 @@ public class Knapsack extends javax.swing.JPanel {
         //init attributes
         psuedoline = 0;
         speed = 50;
+        capacity = 1;
         ListModel = new DefaultListModel();
         valueList = new ArrayList<Integer>();
         weightList = new ArrayList<Integer>();
@@ -57,6 +61,8 @@ public class Knapsack extends javax.swing.JPanel {
     private void initComponents() {
 
         calculationsPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        calculationsAreaText = new javax.swing.JTextArea();
         speedPanel = new javax.swing.JPanel();
         speedSlider = new javax.swing.JSlider();
         speedLabel = new javax.swing.JLabel();
@@ -66,7 +72,7 @@ public class Knapsack extends javax.swing.JPanel {
         jTable2 = new javax.swing.JTable();
         tablePanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        calculationsTable = new javax.swing.JTable();
         userInputPanel = new javax.swing.JPanel();
         addButton = new javax.swing.JButton();
         inputValueScrollPane = new javax.swing.JScrollPane();
@@ -87,15 +93,26 @@ public class Knapsack extends javax.swing.JPanel {
 
         calculationsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Calculations"));
 
+        calculationsAreaText.setColumns(20);
+        calculationsAreaText.setEditable(false);
+        calculationsAreaText.setRows(5);
+        jScrollPane1.setViewportView(calculationsAreaText);
+
         org.jdesktop.layout.GroupLayout calculationsPanelLayout = new org.jdesktop.layout.GroupLayout(calculationsPanel);
         calculationsPanel.setLayout(calculationsPanelLayout);
         calculationsPanelLayout.setHorizontalGroup(
             calculationsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 390, Short.MAX_VALUE)
+            .add(calculationsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+                .addContainerGap())
         );
         calculationsPanelLayout.setVerticalGroup(
             calculationsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 0, Short.MAX_VALUE)
+            .add(calculationsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane1)
+                .addContainerGap())
         );
 
         speedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Speed"));
@@ -203,7 +220,7 @@ public class Knapsack extends javax.swing.JPanel {
         tablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Table"));
         tablePanel.setPreferredSize(new java.awt.Dimension(495, 400));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        calculationsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
@@ -268,32 +285,32 @@ public class Knapsack extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setEnabled(false);
-        jTable1.setGridColor(java.awt.Color.gray);
-        jTable1.setRowSelectionAllowed(false);
-        jTable1.setShowGrid(true);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable1);
-        jTable1.getColumnModel().getColumn(0).setResizable(false);
-        jTable1.getColumnModel().getColumn(0).setHeaderValue("Title 1");
-        jTable1.getColumnModel().getColumn(1).setResizable(false);
-        jTable1.getColumnModel().getColumn(1).setHeaderValue("Title 2");
-        jTable1.getColumnModel().getColumn(2).setResizable(false);
-        jTable1.getColumnModel().getColumn(2).setHeaderValue("Title 3");
-        jTable1.getColumnModel().getColumn(3).setResizable(false);
-        jTable1.getColumnModel().getColumn(3).setHeaderValue("Title 4");
-        jTable1.getColumnModel().getColumn(4).setResizable(false);
-        jTable1.getColumnModel().getColumn(4).setHeaderValue("Title 5");
-        jTable1.getColumnModel().getColumn(5).setResizable(false);
-        jTable1.getColumnModel().getColumn(5).setHeaderValue("Title 6");
-        jTable1.getColumnModel().getColumn(6).setResizable(false);
-        jTable1.getColumnModel().getColumn(6).setHeaderValue("Title 7");
-        jTable1.getColumnModel().getColumn(7).setResizable(false);
-        jTable1.getColumnModel().getColumn(7).setHeaderValue("Title 8");
-        jTable1.getColumnModel().getColumn(8).setResizable(false);
-        jTable1.getColumnModel().getColumn(8).setHeaderValue("Title 9");
-        jTable1.getColumnModel().getColumn(9).setResizable(false);
-        jTable1.getColumnModel().getColumn(9).setHeaderValue("Title 10");
+        calculationsTable.setEnabled(false);
+        calculationsTable.setGridColor(java.awt.Color.gray);
+        calculationsTable.setRowSelectionAllowed(false);
+        calculationsTable.setShowGrid(true);
+        calculationsTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(calculationsTable);
+        calculationsTable.getColumnModel().getColumn(0).setResizable(false);
+        calculationsTable.getColumnModel().getColumn(0).setHeaderValue("Title 1");
+        calculationsTable.getColumnModel().getColumn(1).setResizable(false);
+        calculationsTable.getColumnModel().getColumn(1).setHeaderValue("Title 2");
+        calculationsTable.getColumnModel().getColumn(2).setResizable(false);
+        calculationsTable.getColumnModel().getColumn(2).setHeaderValue("Title 3");
+        calculationsTable.getColumnModel().getColumn(3).setResizable(false);
+        calculationsTable.getColumnModel().getColumn(3).setHeaderValue("Title 4");
+        calculationsTable.getColumnModel().getColumn(4).setResizable(false);
+        calculationsTable.getColumnModel().getColumn(4).setHeaderValue("Title 5");
+        calculationsTable.getColumnModel().getColumn(5).setResizable(false);
+        calculationsTable.getColumnModel().getColumn(5).setHeaderValue("Title 6");
+        calculationsTable.getColumnModel().getColumn(6).setResizable(false);
+        calculationsTable.getColumnModel().getColumn(6).setHeaderValue("Title 7");
+        calculationsTable.getColumnModel().getColumn(7).setResizable(false);
+        calculationsTable.getColumnModel().getColumn(7).setHeaderValue("Title 8");
+        calculationsTable.getColumnModel().getColumn(8).setResizable(false);
+        calculationsTable.getColumnModel().getColumn(8).setHeaderValue("Title 9");
+        calculationsTable.getColumnModel().getColumn(9).setResizable(false);
+        calculationsTable.getColumnModel().getColumn(9).setHeaderValue("Title 10");
 
         org.jdesktop.layout.GroupLayout tablePanelLayout = new org.jdesktop.layout.GroupLayout(tablePanel);
         tablePanel.setLayout(tablePanelLayout);
@@ -350,6 +367,11 @@ public class Knapsack extends javax.swing.JPanel {
         weightLabel1.setText("Capacity:");
 
         capacitySpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), null, Integer.valueOf(100), Integer.valueOf(1)));
+        capacitySpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                capacitySpinnerStateChanged(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout userInputPanelLayout = new org.jdesktop.layout.GroupLayout(userInputPanel);
         userInputPanel.setLayout(userInputPanelLayout);
@@ -464,13 +486,15 @@ public class Knapsack extends javax.swing.JPanel {
 
     
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        // TODO terminate the thread.
+        //cancel the running of the algorithm
+        executor.shutdownNow();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
        
-        //if started empty use test data
-        enterTestData();
+        //FOR TESTING WILL BE REMOVED
+        if(valueList.isEmpty() || weightList.isEmpty())
+            enterTestData();
         
         //check if there are values in the arrays, display error if not
         if(valueList.isEmpty() || weightList.isEmpty()) {
@@ -480,16 +504,18 @@ public class Knapsack extends javax.swing.JPanel {
         else if(valueList.size() < 2) {
             JOptionPane.showMessageDialog(this, "You need to have more than 1 weight/value.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+        else if(capacity < 2) {
+            JOptionPane.showMessageDialog(this, "The capacity should be larger than ", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         else {
-
-            // TODO start the thread and repaint the gui
-            capacity = Integer.parseInt(capacitySpinner.getValue().toString());
-            System.out.println("" + capacity);
         
-            KnapsackAlgorithm ka = new KnapsackAlgorithm(jTable1, valueList, weightList, capacity);
-            ka.run();
-            jTable1.getTableHeader().setResizingAllowed(false);
+            //TODO Disable buttons until algorithm has finished
+            
+            executor = Executors.newSingleThreadExecutor();
+            ka = new KnapsackAlgorithm(calculationsTable, calculationsAreaText, valueList, weightList, capacity);
+            executor.execute(ka);
+            //ka = null;  //check this
+            calculationsTable.getTableHeader().setResizingAllowed(false);
         }
     }//GEN-LAST:event_startButtonActionPerformed
 
@@ -534,21 +560,27 @@ public class Knapsack extends javax.swing.JPanel {
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void speedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_speedSliderStateChanged
-        
         speed = speedSlider.getValue();
         speedValueLabel.setText(speed + "%");
+        ka.setSpeed(speed);
     }//GEN-LAST:event_speedSliderStateChanged
+
+    private void capacitySpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_capacitySpinnerStateChanged
+        capacity = Integer.parseInt(capacitySpinner.getValue().toString());
+    }//GEN-LAST:event_capacitySpinnerStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JTextArea calculationsAreaText;
     private javax.swing.JPanel calculationsPanel;
+    private javax.swing.JTable calculationsTable;
     private javax.swing.JButton cancelButton;
     private javax.swing.JSpinner capacitySpinner;
     private javax.swing.JList inputValueList;
     private javax.swing.JScrollPane inputValueScrollPane;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JPanel pseudoCodePanel;
     private javax.swing.JButton removeButton;
