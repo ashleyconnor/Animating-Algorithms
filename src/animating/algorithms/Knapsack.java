@@ -512,7 +512,7 @@ public class Knapsack extends javax.swing.JPanel {
             //TODO Disable buttons until algorithm has finished
             
             executor = Executors.newSingleThreadExecutor();
-            ka = new KnapsackAlgorithm(calculationsTable, calculationsAreaText, valueList, weightList, capacity);
+            ka = new KnapsackAlgorithm(calculationsTable, calculationsAreaText, valueList, weightList, capacity, speed);
             executor.execute(ka);
             //ka = null;  //check this
             calculationsTable.getTableHeader().setResizingAllowed(false);
