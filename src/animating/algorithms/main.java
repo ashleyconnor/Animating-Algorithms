@@ -19,7 +19,6 @@ public class main {
         Menu menu = new Menu();
         menu.setSize(800, 600);
         menu.setLocationRelativeTo(null);
-        menu.setVisible(true);
-        
+        menu.setVisible(true);  
     }
 }

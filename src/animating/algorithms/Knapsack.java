@@ -4,14 +4,12 @@
  */
 package animating.algorithms;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -22,7 +20,7 @@ public class Knapsack extends javax.swing.JPanel {
     
     
     //attributes
-    int psuedoline, speed, capacity;
+    int listLine, psuedoLine, speed, capacity;
     ArrayList<Integer> valueList, weightList;
     DefaultListModel ListModel;
     KnapsackAlgorithm ka;
@@ -34,7 +32,7 @@ public class Knapsack extends javax.swing.JPanel {
     public Knapsack() {
         
         //init attributes
-        psuedoline = 0;
+        psuedoLine = 0;
         speed = 50;
         capacity = 1;
         ListModel = new DefaultListModel();
@@ -44,8 +42,9 @@ public class Knapsack extends javax.swing.JPanel {
         //init GUI
         initComponents();
         
-        //set custom renderer for pseduocode table
+        //set custom renderer for pseduocode table and input list
         jTable2.setDefaultRenderer(String.class, new CustomRenderer());
+        inputValueList.setCellRenderer(new CustomListRenderer());
     }
     
     //methods
@@ -118,6 +117,7 @@ public class Knapsack extends javax.swing.JPanel {
         speedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Speed"));
         speedPanel.setPreferredSize(new java.awt.Dimension(250, 80));
 
+        speedSlider.setMinimum(10);
         speedSlider.setMinorTickSpacing(10);
         speedSlider.setPaintLabels(true);
         speedSlider.setPaintTicks(true);
@@ -222,95 +222,67 @@ public class Knapsack extends javax.swing.JPanel {
 
         calculationsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
-        });
+        ));
         calculationsTable.setEnabled(false);
         calculationsTable.setGridColor(java.awt.Color.gray);
         calculationsTable.setRowSelectionAllowed(false);
         calculationsTable.setShowGrid(true);
         calculationsTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(calculationsTable);
-        calculationsTable.getColumnModel().getColumn(0).setResizable(false);
-        calculationsTable.getColumnModel().getColumn(0).setHeaderValue("Title 1");
-        calculationsTable.getColumnModel().getColumn(1).setResizable(false);
-        calculationsTable.getColumnModel().getColumn(1).setHeaderValue("Title 2");
-        calculationsTable.getColumnModel().getColumn(2).setResizable(false);
-        calculationsTable.getColumnModel().getColumn(2).setHeaderValue("Title 3");
-        calculationsTable.getColumnModel().getColumn(3).setResizable(false);
-        calculationsTable.getColumnModel().getColumn(3).setHeaderValue("Title 4");
-        calculationsTable.getColumnModel().getColumn(4).setResizable(false);
-        calculationsTable.getColumnModel().getColumn(4).setHeaderValue("Title 5");
-        calculationsTable.getColumnModel().getColumn(5).setResizable(false);
-        calculationsTable.getColumnModel().getColumn(5).setHeaderValue("Title 6");
-        calculationsTable.getColumnModel().getColumn(6).setResizable(false);
-        calculationsTable.getColumnModel().getColumn(6).setHeaderValue("Title 7");
-        calculationsTable.getColumnModel().getColumn(7).setResizable(false);
-        calculationsTable.getColumnModel().getColumn(7).setHeaderValue("Title 8");
-        calculationsTable.getColumnModel().getColumn(8).setResizable(false);
-        calculationsTable.getColumnModel().getColumn(8).setHeaderValue("Title 9");
-        calculationsTable.getColumnModel().getColumn(9).setResizable(false);
-        calculationsTable.getColumnModel().getColumn(9).setHeaderValue("Title 10");
 
         org.jdesktop.layout.GroupLayout tablePanelLayout = new org.jdesktop.layout.GroupLayout(tablePanel);
         tablePanel.setLayout(tablePanelLayout);
@@ -512,9 +484,8 @@ public class Knapsack extends javax.swing.JPanel {
             //TODO Disable buttons until algorithm has finished
             
             executor = Executors.newSingleThreadExecutor();
-            ka = new KnapsackAlgorithm(calculationsTable, calculationsAreaText, valueList, weightList, capacity, speed);
+            ka = new KnapsackAlgorithm(this);
             executor.execute(ka);
-            //ka = null;  //check this
             calculationsTable.getTableHeader().setResizingAllowed(false);
         }
     }//GEN-LAST:event_startButtonActionPerformed
@@ -562,7 +533,8 @@ public class Knapsack extends javax.swing.JPanel {
     private void speedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_speedSliderStateChanged
         speed = speedSlider.getValue();
         speedValueLabel.setText(speed + "%");
-        ka.setSpeed(speed);
+        if(ka != null)
+            ka.setSpeed(speed);
     }//GEN-LAST:event_speedSliderStateChanged
 
     private void capacitySpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_capacitySpinnerStateChanged
@@ -599,27 +571,65 @@ public class Knapsack extends javax.swing.JPanel {
     private javax.swing.JSpinner weightSpinner;
     // End of variables declaration//GEN-END:variables
 
+    //setters and getters
+    public JTable getCalculationsTable() {
+        return calculationsTable;
+    }
+    
+    public JList getValueInputList() {
+        return inputValueList;
+    }
+    
+    public JTextArea getCalculationsTextArea() {
+        return calculationsAreaText;
+    }
+    
+    public int getSpeed() {
+        return speed;
+    }
+    
+    public ArrayList<Integer> getValueList() {
+        return valueList;
+    }
+    
+    public ArrayList<Integer> getWeightList() {
+        return weightList;
+    }
+    
+    public int getCapacity() {
+        return capacity;
+    }
     
     public int getPsuedoCodeLine() {
-        
-        return psuedoline;
+        return psuedoLine;
     }
     
     public void setPsuedoCodeLine(int line) {
-        
-        psuedoline = line;
+        psuedoLine = line;
     }
     
     public void incPseudoCodeLine() {
+        psuedoLine++;
+    }
     
-        psuedoline++;
+    public int getListLine() {
+        return listLine;
+    }
+    
+    public void setListLine(int line) {
+        listLine = line;
     }
 
     private void enterTestData() {
         
         if(valueList.isEmpty() && weightList.isEmpty()) {
             //Test data
-            capacity = 18;
+            
+            capacity = Integer.parseInt(capacitySpinner.getValue().toString());
+            System.out.println(capacity);
+            
+            if(capacity == 1)
+                capacity = 18;
 
             valueList.add(null);
             valueList.add(12);
@@ -647,11 +657,23 @@ class CustomRenderer extends DefaultTableCellRenderer
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
             JLabel d = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            if((row == psuedoline) && (column == 0))
-                d.setBackground(new java.awt.Color(255, 72, 72));
+            if((row == psuedoLine) && (column == 0))
+                d.setBackground(Color.RED);
             else
                 d.setBackground(null);
             return d;
+        }
+    }
+
+class CustomListRenderer extends DefaultListCellRenderer {
+        
+    @Override
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+    Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+         if (index == listLine) {
+             c.setBackground(Color.RED);
+         }
+         return c;
         }
     }
 

@@ -4,9 +4,10 @@
  */
 package animating.algorithms;
 
+import java.awt.Component;
 import java.util.ArrayList;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,7 +16,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class KnapsackAlgorithm implements Runnable {
     
-      int numItems, capacity, speed, sleepTime;
+      int numItems, capacity, speed, actionTime, sleepTime, textTime;
+      
+      JPanel knapsackGUI;
       ArrayList<Integer> value, weight;
       JTable table;
       JTextArea textArea;
@@ -23,14 +26,19 @@ public final class KnapsackAlgorithm implements Runnable {
       Integer[][] knapsackModel;
       DefaultTableModel knapsackTableModel;
 
-    public KnapsackAlgorithm(JTable table, JTextArea textArea, ArrayList value, ArrayList weight, int capacity, int speed) {
+    public KnapsackAlgorithm(Knapsack knapsackGUI) {
         
-        this.table         = table;
-        this.textArea      = textArea;
-        this.value         = value;
-        this.weight        = weight;
-        this.capacity      = capacity;          //add one for blank row
-        this.speed         = speed;
+        this.knapsackGUI = knapsackGUI;
+        
+        table = knapsackGUI.getCalculationsTable();
+        textArea = knapsackGUI.getCalculationsTextArea();
+        value = knapsackGUI.getValueList();
+        weight = knapsackGUI.getWeightList();
+        capacity = knapsackGUI.getCapacity();
+        speed = knapsackGUI.getSpeed();
+        
+        //set the custom highlight renderer
+        table.setDefaultRenderer(Object.class, new CustomRenderer());
         
         //Create model to be used by tabls
         knapsackModel = createDataModel();
@@ -40,6 +48,8 @@ public final class KnapsackAlgorithm implements Runnable {
         knapsackTableModel = new DefaultTableModel(knapsackModel, columnHeaders);
         table.setModel(knapsackTableModel);
         
+        //Set algorithm speeds
+        setSpeed(speed);
     }
     
     @Override
@@ -47,61 +57,71 @@ public final class KnapsackAlgorithm implements Runnable {
     try {
         numItems = value.size() - 1;
 
-        sleepTime = speed * 100;
-        int actionTime = speed * 5;
 
         //MESSAGE: Zero out the first row
-        textArea.setText("Zero out the first row.");
-        Thread.sleep(1);
+        textArea.setText("First we zero out the first row.");
 
         for (int w = 0; w <= capacity; w++) {
             knapsackTableModel.setValueAt(new Integer(0), 0, w);
             Thread.sleep(actionTime);   //calm down dear it's an animation
         }
-
-        knapsackTableModel.fireTableDataChanged();
-
-        //MESSAGE: Loop through all X items
-        textArea.setText("Loop through all " + numItems + " items");
-        //Thread.sleep(sleepTime);
+        
+            textArea.setText("For each of our " + numItems + " items.");
+            Thread.sleep(textTime);
 
         // *** Now do the work!
         for (int k = 1; k <= numItems; k++) {
-            System.out.println("Weight at " + k + ": " + weight.get(k));
 
-            //MESSAGE: The weight of item X is Y
-
+            //if the capacity is larger or equal to the weight of the item
             for (int w = capacity; w >= weight.get(k); w--) {
+                
+                textArea.setText("Item "+ k +" weight: " + weight.get(k) + " is less than the current capacity " + w);
+                
+                //Hightlight current cell
+                
+                Thread.sleep(textTime);
+                
+                if (value.get(k) + modelValueAt(k-1, w - weight.get(k)) > modelValueAt(k-1, w)) {
 
-                //MESSAGE: Check if the item can fit in the weight.
-
-
-                if (value.get(k) + modelValueAt(k-1, w- weight.get(k)) > modelValueAt(k-1, w)) {
-                    //knapsackModel[k][w] = value.get(k) + knapsackModel[k - 1][w - weight.get(k)];
+                    textArea.setText("Item " + k + " value: " + value.get(k) + " + value at (" + (k - 1) + "," + (w - weight.get(k)) + "): " + modelValueAt(k-1, w-weight.get(k)));
+                    textArea.append("\nis LARGER than the value at (" + (k-1) + "," + w + "): " + modelValueAt(k-1, w));
+                    textArea.append("\nwe therefore use the larger value: " + (value.get(k) + modelValueAt(k-1, w - weight.get(k))));
+                    
+                    Thread.sleep(textTime);
+                    
+                    //Set colors for the 2 values in conditional
 
                     knapsackTableModel.setValueAt(new Integer(value.get(k) + modelValueAt(k - 1, w - weight.get(k))),k,w);
-
-                    //MESSAGE: Since X is more than Y we use X
+                    
+                    //Highlight cell that will be set
 
                 } else {
-                    //knapsackModel[k][w] = knapsackModel[k - 1][w];
+                    
+                    textArea.setText("Item " + k + " value: " + value.get(k) + " + value at (" + (k - 1) + "," + (w - weight.get(k)) + "): " + modelValueAt(k-1, w-weight.get(k)));
+                    textArea.append("\nis SMALLER than the value: " + modelValueAt(k-1, w));
+                    textArea.append("\nwe therefore use the larger value: " + (modelValueAt(k-1, w)));
+                    
+                    Thread.sleep(textTime);
+                    
                     knapsackTableModel.setValueAt(knapsackTableModel.getValueAt(k-1, w), k, w);
-
-                    //MESSAGE: Since Y is bigger than X we use Y
+                    
+                    //Highlight cell that will be set
                 }
             }
-            for (int w = 0; w < weight.get(k); w++) {
-                //knapsackModel[k][w] = knapsackModel[k - 1][w];
-                knapsackTableModel.setValueAt(knapsackTableModel.getValueAt(k-1, w), k, w);
 
-                //MESSAGE: ???
+            textArea.setText("Now we loop through capacities smaller than the items weight and reuse the maximum values previously stored.");
+            //textArea.append("\n\n");
+            
+            Thread.sleep(textTime);
+            
+            for (int w = 0; w < weight.get(k); w++) {
+                Thread.sleep(actionTime);
+                knapsackTableModel.setValueAt(knapsackTableModel.getValueAt(k-1, w), k, w);
             }
         }
 
     } catch (InterruptedException ex) {
-        
         System.out.println("Interrupted.");
-    
     }
 
         //Clear arrays for new values
@@ -111,7 +131,7 @@ public final class KnapsackAlgorithm implements Runnable {
       
       //why there is no standard library method to do this!!!?
     
-    //Gets the value at column x, row y and returns an int
+    //Gets the value at column x, row y of the model and returns an int
     private int modelValueAt(int x, int y) {
 
         return (Integer) knapsackTableModel.getValueAt(x,y);
@@ -140,5 +160,28 @@ public final class KnapsackAlgorithm implements Runnable {
     public void setSpeed(int speed) {
 
         this.speed = speed;
+        actionTime = 31250 / speed;
+        sleepTime  = 50000 / speed;
+        
+        if(speed <= 50)
+            textTime = 4000;
+        else if (speed > 50 && speed < 80)
+            textTime = 2000;
+        else
+            textTime = 1000;
+    }
+    
+class CustomRenderer extends DefaultTableCellRenderer {
+    
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+    {
+        JLabel e = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        if((row == 0) && (column == 0))
+            e.setBackground(new java.awt.Color(255, 72, 72));
+        else
+            e.setBackground(null);
+        return e;
+        }
     }
 }
