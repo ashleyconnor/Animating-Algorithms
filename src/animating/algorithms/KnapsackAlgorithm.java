@@ -6,7 +6,10 @@ package animating.algorithms;
 
 import java.awt.Component;
 import java.util.ArrayList;
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,15 +19,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class KnapsackAlgorithm implements Runnable {
     
-      int numItems, capacity, speed, actionTime, sleepTime, textTime;
+    int numItems, capacity, speed, actionTime, sleepTime, textTime;
       
-      JPanel knapsackGUI;
-      ArrayList<Integer> value, weight;
-      JTable table;
-      JTextArea textArea;
-      String[] columnHeaders;
-      Integer[][] knapsackModel;
-      DefaultTableModel knapsackTableModel;
+    int[] current, compareA, compareB, compareC;
+      
+    JPanel knapsackGUI;
+    ArrayList<Integer> value, weight;
+    JTable table;
+    JTextArea textArea;
+    String[] columnHeaders;
+    Integer[][] knapsackModel;
+    DefaultTableModel knapsackTableModel;
 
     public KnapsackAlgorithm(Knapsack knapsackGUI) {
         
@@ -50,6 +55,24 @@ public final class KnapsackAlgorithm implements Runnable {
         
         //Set algorithm speeds
         setSpeed(speed);
+        
+        //Configure the hightlighted cells
+        current = new int[2];
+        current[0] = -1;
+        current[1] = -1;
+        
+        compareA = new int[2];
+        compareA[0] = -1;
+        compareA[1] = -1;
+        
+        compareB = new int[2];
+        compareB[0] = -1;
+        compareB[1] = -1;
+        
+        compareC = new int[2];
+        compareC[0] = -1;
+        compareC[1] = -1;
+        
     }
     
     @Override
@@ -74,6 +97,12 @@ public final class KnapsackAlgorithm implements Runnable {
 
             //if the capacity is larger or equal to the weight of the item
             for (int w = capacity; w >= weight.get(k); w--) {
+                
+                //highlight the current cell we are processing
+                current[0] = k;
+                current[1] = w;
+                table.repaint();
+
                 
                 textArea.setText("Item "+ k +" weight: " + weight.get(k) + " is less than the current capacity " + w);
                 
@@ -109,7 +138,7 @@ public final class KnapsackAlgorithm implements Runnable {
                 }
             }
 
-            textArea.setText("Now we loop through capacities smaller than the items weight and reuse the maximum values previously stored.");
+            textArea.setText("Now we loop through capacities smaller than the items weight\nand reuse the maximum values previously stored.");
             //textArea.append("\n\n");
             
             Thread.sleep(textTime);
@@ -177,7 +206,7 @@ class CustomRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
         JLabel e = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        if((row == 0) && (column == 0))
+        if((row == current[0]) && (column == current[1]))
             e.setBackground(new java.awt.Color(255, 72, 72));
         else
             e.setBackground(null);

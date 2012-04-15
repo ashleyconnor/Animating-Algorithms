@@ -32,7 +32,8 @@ public class Knapsack extends javax.swing.JPanel {
     public Knapsack() {
         
         //init attributes
-        psuedoLine = 0;
+        psuedoLine = -1;
+        listLine = -1;
         speed = 50;
         capacity = 1;
         ListModel = new DefaultListModel();
@@ -316,11 +317,11 @@ public class Knapsack extends javax.swing.JPanel {
 
         valueLabel.setText("Value:");
 
-        valueSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), null, Integer.valueOf(100), Integer.valueOf(1)));
+        valueSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(100), Integer.valueOf(1)));
 
         weightLabel.setText("Weight:");
 
-        weightSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), null, Integer.valueOf(100), Integer.valueOf(1)));
+        weightSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(100), Integer.valueOf(1)));
 
         removeButton.setText("Remove");
         removeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -354,15 +355,13 @@ public class Knapsack extends javax.swing.JPanel {
                 .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(inputValueScrollPane)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, userInputPanelLayout.createSequentialGroup()
+                        .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(weightLabel)
+                            .add(valueLabel))
+                        .add(62, 62, 62)
                         .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(userInputPanelLayout.createSequentialGroup()
-                                .add(valueLabel)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(valueSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(userInputPanelLayout.createSequentialGroup()
-                                .add(weightLabel)
-                                .add(62, 62, 62)
-                                .add(weightSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                            .add(valueSpinner)
+                            .add(weightSpinner, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 133, Short.MAX_VALUE)
                         .add(weightLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 60, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -460,6 +459,7 @@ public class Knapsack extends javax.swing.JPanel {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         //cancel the running of the algorithm
         executor.shutdownNow();
+        JOptionPane.showMessageDialog(this, "Algorithm cancelled.", "Cancelled", JOptionPane.OK_OPTION);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
