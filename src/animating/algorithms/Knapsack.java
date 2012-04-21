@@ -218,7 +218,7 @@ public class Knapsack extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        tablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Table"));
+        tablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Value Table"));
         tablePanel.setPreferredSize(new java.awt.Dimension(495, 400));
 
         calculationsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -291,7 +291,7 @@ public class Knapsack extends javax.swing.JPanel {
             tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(tablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane2)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
                 .addContainerGap())
         );
         tablePanelLayout.setVerticalGroup(
@@ -459,6 +459,12 @@ public class Knapsack extends javax.swing.JPanel {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         //cancel the running of the algorithm
         executor.shutdownNow();
+        
+        //clear the data-structures ready for new input
+        valueList.clear();
+        weightList.clear();
+        ListModel.clear();
+        
         JOptionPane.showMessageDialog(this, "Algorithm cancelled.", "Cancelled", JOptionPane.OK_OPTION);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -497,6 +503,10 @@ public class Knapsack extends javax.swing.JPanel {
         
         ListModel.addElement("Value: " + valueSpinner.getValue() + ", Weight: " + weightSpinner.getValue());
              
+        if(valueList.isEmpty() && weightList.isEmpty()) {
+            valueList.add(null);
+            weightList.add(null);
+        }
         valueList.add(value);
         weightList.add(weight);
     }//GEN-LAST:event_addButtonActionPerformed

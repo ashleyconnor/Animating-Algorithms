@@ -141,13 +141,14 @@ public class Menu extends javax.swing.JFrame {
 
     private void lcsMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lcsMenuButtonActionPerformed
         // TODO add your handling code here:
-        
         this.remove(menuPanel);
+        this.resize(1024,768);
+        this.setLocationRelativeTo(null);
         this.setTitle("Lowest Common Subsequence Algorithm");
         
         LCS lcs = new LCS();
         lcs.menu = menuPanel;
-        lcs.setSize(800, 600);        
+        lcs.setSize(1024, 768);        
         this.setContentPane(lcs);
         this.repaint();
     }//GEN-LAST:event_lcsMenuButtonActionPerformed

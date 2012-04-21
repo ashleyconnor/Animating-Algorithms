@@ -6,16 +6,13 @@ package animating.algorithms;
 
 import java.awt.Component;
 import java.util.ArrayList;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Ash
+ * @author Ashley Connor
  */
 public final class KnapsackAlgorithm implements Runnable {
     
@@ -27,6 +24,7 @@ public final class KnapsackAlgorithm implements Runnable {
     ArrayList<Integer> value, weight;
     JTable table;
     JTextArea textArea;
+    JList valueInputList;
     String[] columnHeaders;
     Integer[][] knapsackModel;
     DefaultTableModel knapsackTableModel;
@@ -37,6 +35,7 @@ public final class KnapsackAlgorithm implements Runnable {
         
         table = knapsackGUI.getCalculationsTable();
         textArea = knapsackGUI.getCalculationsTextArea();
+        valueInputList = knapsackGUI.getValueInputList();
         value = knapsackGUI.getValueList();
         weight = knapsackGUI.getWeightList();
         capacity = knapsackGUI.getCapacity();
@@ -57,6 +56,7 @@ public final class KnapsackAlgorithm implements Runnable {
         setSpeed(speed);
         
         //Configure the hightlighted cells
+        //initialise all values to -1 so that no colours appear on the table
         current = new int[2];
         current[0] = -1;
         current[1] = -1;
@@ -106,11 +106,17 @@ public final class KnapsackAlgorithm implements Runnable {
                 
                 textArea.setText("Item "+ k +" weight: " + weight.get(k) + " is less than the current capacity " + w);
                 
-                //Hightlight current cell
-                
                 Thread.sleep(textTime);
                 
                 if (value.get(k) + modelValueAt(k-1, w - weight.get(k)) > modelValueAt(k-1, w)) {
+                    
+                    //highlight cells to be compared
+                    compareA[0] = k-1; 
+                    compareA[1] = w - weight.get(k);
+                    
+                    compareB[0] = k-1;
+                    compareB[1] = w;
+                    table.repaint();
 
                     textArea.setText("Item " + k + " value: " + value.get(k) + " + value at (" + (k - 1) + "," + (w - weight.get(k)) + "): " + modelValueAt(k-1, w-weight.get(k)));
                     textArea.append("\nis LARGER than the value at (" + (k-1) + "," + w + "): " + modelValueAt(k-1, w));
@@ -207,10 +213,20 @@ class CustomRenderer extends DefaultTableCellRenderer {
     {
         JLabel e = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         if((row == current[0]) && (column == current[1]))
-            e.setBackground(new java.awt.Color(255, 72, 72));
-        else
-            e.setBackground(null);
-        return e;
+            e.setBackground(java.awt.Color.RED);
+        else if((row == compareA[0]) && (column == compareA[1])) {
+            e.setBackground(java.awt.Color.BLUE);
         }
+        else if((row == compareB[0]) && (column == compareB[1])) {
+            e.setBackground(java.awt.Color.GREEN);
+        }
+        else if((row == compareC[0]) && (column == compareC[1])) {
+            e.setBackground(java.awt.Color.ORANGE);
+        }
+        else {
+            e.setBackground(null);
+        }
+        return e;
     }
+}
 }

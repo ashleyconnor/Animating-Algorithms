@@ -5,18 +5,32 @@
 package animating.algorithms;
 
 import javax.swing.JPanel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 /**
  *
  * @author ash
  */
 public class LCS extends javax.swing.JPanel {
+    
+    final int limit = 20;
+    int speed;
+    public JPanel menu;
+    LCSAlgorithm lcs;
+    PlainDocument limitTextInput;
 
     /**
      * Creates new form LCS
      */
     public LCS() {
         initComponents();
+        
+        //Limit input of both strings to 20 chars
+        
+        jTextField1.setDocument(new LimitDocument());
+        jTextField2.setDocument(new LimitDocument());
     }
 
     /**
@@ -28,15 +42,303 @@ public class LCS extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        calculationsPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        calculationsAreaText = new javax.swing.JTextArea();
+        pseudoCodePanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        speedPanel = new javax.swing.JPanel();
+        speedSlider = new javax.swing.JSlider();
+        speedLabel = new javax.swing.JLabel();
+        speedValueLabel = new javax.swing.JLabel();
+        userInputPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        tablePanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        calculationsTable = new javax.swing.JTable();
+        cancelButton = new javax.swing.JButton();
+        startButton = new javax.swing.JButton();
 
-        jLabel1.setText("LCS");
+        setMinimumSize(new java.awt.Dimension(1024, 768));
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
-        jButton1.setText("Return");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        calculationsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Calculations"));
+
+        calculationsAreaText.setColumns(20);
+        calculationsAreaText.setEditable(false);
+        calculationsAreaText.setRows(5);
+        jScrollPane1.setViewportView(calculationsAreaText);
+
+        org.jdesktop.layout.GroupLayout calculationsPanelLayout = new org.jdesktop.layout.GroupLayout(calculationsPanel);
+        calculationsPanel.setLayout(calculationsPanelLayout);
+        calculationsPanelLayout.setHorizontalGroup(
+            calculationsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(calculationsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        calculationsPanelLayout.setVerticalGroup(
+            calculationsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(calculationsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pseudoCodePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Psuedocode"));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"code line 1"},
+                {"code line 2"},
+                {"code line 3"},
+                {"code line 4"},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Pseudocode"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.setEnabled(false);
+        jTable2.setRowSelectionAllowed(false);
+        jTable2.setShowGrid(true);
+        jTable2.setTableHeader(null);
+        jScrollPane3.setViewportView(jTable2);
+
+        org.jdesktop.layout.GroupLayout pseudoCodePanelLayout = new org.jdesktop.layout.GroupLayout(pseudoCodePanel);
+        pseudoCodePanel.setLayout(pseudoCodePanelLayout);
+        pseudoCodePanelLayout.setHorizontalGroup(
+            pseudoCodePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pseudoCodePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pseudoCodePanelLayout.setVerticalGroup(
+            pseudoCodePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pseudoCodePanelLayout.createSequentialGroup()
+                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        speedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Speed"));
+        speedPanel.setPreferredSize(new java.awt.Dimension(250, 80));
+
+        speedSlider.setMinimum(10);
+        speedSlider.setMinorTickSpacing(10);
+        speedSlider.setPaintLabels(true);
+        speedSlider.setPaintTicks(true);
+        speedSlider.setSnapToTicks(true);
+        speedSlider.setFocusable(false);
+        speedSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                speedSliderStateChanged(evt);
+            }
+        });
+
+        speedLabel.setText("Speed:");
+
+        speedValueLabel.setText("50%");
+
+        org.jdesktop.layout.GroupLayout speedPanelLayout = new org.jdesktop.layout.GroupLayout(speedPanel);
+        speedPanel.setLayout(speedPanelLayout);
+        speedPanelLayout.setHorizontalGroup(
+            speedPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(speedPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(speedSlider, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(speedLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(speedValueLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 38, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        speedPanelLayout.setVerticalGroup(
+            speedPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(speedPanelLayout.createSequentialGroup()
+                .add(speedPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(speedPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(speedSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(speedPanelLayout.createSequentialGroup()
+                        .add(15, 15, 15)
+                        .add(speedPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(speedLabel)
+                            .add(speedValueLabel))))
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
+
+        userInputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("User Input"));
+        userInputPanel.setPreferredSize(new java.awt.Dimension(250, 320));
+
+        jLabel1.setText("Input Strings:");
+
+        jLabel2.setText("String A:");
+
+        jLabel3.setText("String B:");
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout userInputPanelLayout = new org.jdesktop.layout.GroupLayout(userInputPanel);
+        userInputPanel.setLayout(userInputPanelLayout);
+        userInputPanelLayout.setHorizontalGroup(
+            userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(userInputPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(userInputPanelLayout.createSequentialGroup()
+                        .add(jLabel1)
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(userInputPanelLayout.createSequentialGroup()
+                        .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel3)
+                            .add(jLabel2))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jTextField2)
+                            .add(jTextField1))))
+                .addContainerGap())
+        );
+        userInputPanelLayout.setVerticalGroup(
+            userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(userInputPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jLabel1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel2)
+                    .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel3))
+                .addContainerGap(153, Short.MAX_VALUE))
+        );
+
+        tablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Value Table"));
+        tablePanel.setPreferredSize(new java.awt.Dimension(495, 400));
+
+        calculationsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        calculationsTable.setEnabled(false);
+        calculationsTable.setGridColor(java.awt.Color.gray);
+        calculationsTable.setRowSelectionAllowed(false);
+        calculationsTable.setShowGrid(true);
+        calculationsTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(calculationsTable);
+
+        org.jdesktop.layout.GroupLayout tablePanelLayout = new org.jdesktop.layout.GroupLayout(tablePanel);
+        tablePanel.setLayout(tablePanelLayout);
+        tablePanelLayout.setHorizontalGroup(
+            tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        tablePanelLayout.setVerticalGroup(
+            tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tablePanelLayout.createSequentialGroup()
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        startButton.setText("Start");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtonActionPerformed(evt);
             }
         });
 
@@ -45,34 +347,104 @@ public class LCS extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(359, 359, 359)
-                .add(jLabel1)
-                .addContainerGap(418, Short.MAX_VALUE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jButton1)
-                .add(33, 33, 33))
+                .addContainerGap()
+                .add(calculationsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(pseudoCodePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(layout.createSequentialGroup()
+                    .add(6, 6, 6)
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                        .add(speedPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                        .add(userInputPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                        .add(layout.createSequentialGroup()
+                            .add(cancelButton)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(startButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 75, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                    .add(tablePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                    .add(6, 6, 6)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(239, 239, 239)
-                .add(jLabel1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 277, Short.MAX_VALUE)
-                .add(jButton1)
-                .add(39, 39, 39))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(calculationsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(pseudoCodePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .add(485, 485, 485))
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(layout.createSequentialGroup()
+                    .add(309, 309, 309)
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(layout.createSequentialGroup()
+                            .add(speedPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(34, 34, 34)
+                            .add(userInputPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 277, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(0, 0, Short.MAX_VALUE))
+                        .add(tablePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE))
+                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                        .add(cancelButton)
+                        .add(startButton))
+                    .add(27, 27, 27)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+
+   }//GEN-LAST:event_startButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+
+   }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void speedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_speedSliderStateChanged
+        speed = speedSlider.getValue();
+        speedValueLabel.setText(speed + "%");
+        if (lcs != null) {
+            //lcs.setSpeed(speed);
+        }
+    }//GEN-LAST:event_speedSliderStateChanged
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         // TODO add your handling code here:
-        this.getRootPane().setContentPane(menu);        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        jTextField1.setText(jTextField1.getText().toUpperCase());
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextArea calculationsAreaText;
+    private javax.swing.JPanel calculationsPanel;
+    private javax.swing.JTable calculationsTable;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPanel pseudoCodePanel;
+    private javax.swing.JLabel speedLabel;
+    private javax.swing.JPanel speedPanel;
+    private javax.swing.JSlider speedSlider;
+    private javax.swing.JLabel speedValueLabel;
+    private javax.swing.JButton startButton;
+    private javax.swing.JPanel tablePanel;
+    private javax.swing.JPanel userInputPanel;
     // End of variables declaration//GEN-END:variables
 
-    public JPanel menu;
+    private class LimitDocument extends PlainDocument {
+
+        @Override
+        public void insertString(int offset, String string, AttributeSet atts) throws BadLocationException {
+            if(getLength() + string.length() <= limit)
+                super.insertString(offset, string, atts);
+        }
+    }
+
 }
