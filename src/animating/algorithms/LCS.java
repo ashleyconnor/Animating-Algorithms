@@ -5,6 +5,7 @@
 package animating.algorithms;
 
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -17,6 +18,7 @@ public class LCS extends javax.swing.JPanel {
     
     final int limit = 20;
     int speed;
+    String stringA, stringB;
     public JPanel menu;
     LCSAlgorithm lcs;
     PlainDocument limitTextInput;
@@ -31,6 +33,9 @@ public class LCS extends javax.swing.JPanel {
         
         jTextField1.setDocument(new LimitDocument());
         jTextField2.setDocument(new LimitDocument());
+        
+        
+       
     }
 
     /**
@@ -59,8 +64,12 @@ public class LCS extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         tablePanel = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        sideTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         calculationsTable = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        topTable = new javax.swing.JTable();
         cancelButton = new javax.swing.JButton();
         startButton = new javax.swing.JButton();
 
@@ -135,9 +144,9 @@ public class LCS extends javax.swing.JPanel {
         pseudoCodePanel.setLayout(pseudoCodePanelLayout);
         pseudoCodePanelLayout.setHorizontalGroup(
             pseudoCodePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(pseudoCodePanelLayout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, pseudoCodePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pseudoCodePanelLayout.setVerticalGroup(
@@ -248,69 +257,81 @@ public class LCS extends javax.swing.JPanel {
         tablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Value Table"));
         tablePanel.setPreferredSize(new java.awt.Dimension(495, 400));
 
-        calculationsTable.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        sideTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
+                "Title 1", "Title 2"
+            }
+        ));
+        sideTable.setGridColor(new java.awt.Color(0, 0, 0));
+        sideTable.setRowSelectionAllowed(false);
+        sideTable.setShowGrid(true);
+        sideTable.setTableHeader(null);
+        jScrollPane5.setViewportView(sideTable);
 
+        calculationsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11", "Title 12", "Title 13", "Title 14", "Title 15"
             }
         ));
         calculationsTable.setEnabled(false);
         calculationsTable.setGridColor(java.awt.Color.gray);
         calculationsTable.setRowSelectionAllowed(false);
         calculationsTable.setShowGrid(true);
-        calculationsTable.getTableHeader().setReorderingAllowed(false);
+        calculationsTable.setTableHeader(null);
         jScrollPane2.setViewportView(calculationsTable);
+
+        jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane4.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        topTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11", "Title 12", "Title 13", "Title 14", "Title 15"
+            }
+        ));
+        topTable.setGridColor(new java.awt.Color(0, 0, 0));
+        topTable.setTableHeader(null);
+        jScrollPane4.setViewportView(topTable);
 
         org.jdesktop.layout.GroupLayout tablePanelLayout = new org.jdesktop.layout.GroupLayout(tablePanel);
         tablePanel.setLayout(tablePanelLayout);
@@ -318,14 +339,22 @@ public class LCS extends javax.swing.JPanel {
             tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(tablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+                .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                    .add(jScrollPane4))
                 .addContainerGap())
         );
         tablePanelLayout.setVerticalGroup(
             tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(tablePanelLayout.createSequentialGroup()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
-                .addContainerGap())
+                .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 260, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 260, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         cancelButton.setText("Cancel");
@@ -346,7 +375,7 @@ public class LCS extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .add(calculationsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -363,7 +392,7 @@ public class LCS extends javax.swing.JPanel {
                             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(startButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 75, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                    .add(tablePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                    .add(tablePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
                     .add(6, 6, 6)))
         );
         layout.setVerticalGroup(
@@ -383,7 +412,7 @@ public class LCS extends javax.swing.JPanel {
                             .add(speedPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(34, 34, 34)
                             .add(userInputPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 277, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(0, 0, Short.MAX_VALUE))
+                            .add(0, 6, Short.MAX_VALUE))
                         .add(tablePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE))
                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -395,6 +424,21 @@ public class LCS extends javax.swing.JPanel {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
 
+        
+        //get the values of the strings
+        stringA = jTextField1.getText();
+        stringB = jTextField2.getText();
+        
+        //check for empty values in either input column
+        if(stringA.isEmpty() || stringB.isEmpty()) {
+            return;
+        }
+        
+        System.out.println(stringA);
+        System.out.println(stringB);
+        
+        
+        
    }//GEN-LAST:event_startButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -425,26 +469,40 @@ public class LCS extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel pseudoCodePanel;
+    private javax.swing.JTable sideTable;
     private javax.swing.JLabel speedLabel;
     private javax.swing.JPanel speedPanel;
     private javax.swing.JSlider speedSlider;
     private javax.swing.JLabel speedValueLabel;
     private javax.swing.JButton startButton;
     private javax.swing.JPanel tablePanel;
+    private javax.swing.JTable topTable;
     private javax.swing.JPanel userInputPanel;
     // End of variables declaration//GEN-END:variables
 
+    //limits the input of the strings to `limit` characters and excludes whitespace
     private class LimitDocument extends PlainDocument {
 
         @Override
         public void insertString(int offset, String string, AttributeSet atts) throws BadLocationException {
+            
+            StringBuilder newString = new StringBuilder(string);
+            
+            for(int i = string.length() - 1; i >= 0; i--) {
+                
+                if(Character.isWhitespace(string.charAt(i))) {
+                    newString.deleteCharAt(i);
+                }
+            }
+            
             if(getLength() + string.length() <= limit)
-                super.insertString(offset, string, atts);
-        }
+                super.insertString(offset, newString.toString(), atts);
     }
-
+}
 }
