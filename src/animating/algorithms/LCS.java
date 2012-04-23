@@ -4,8 +4,9 @@
  */
 package animating.algorithms;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -16,12 +17,12 @@ import javax.swing.text.PlainDocument;
  */
 public class LCS extends javax.swing.JPanel {
     
-    final int limit = 20;
-    int speed;
-    String stringA, stringB;
-    public JPanel menu;
-    LCSAlgorithm lcs;
-    PlainDocument limitTextInput;
+    private final int limit = 20;
+    private int speed;
+    private String stringA, stringB;
+    private JPanel menuPanel;
+    private LCSAlgorithm lcs;
+    private ExecutorService executor;
 
     /**
      * Creates new form LCS
@@ -29,12 +30,9 @@ public class LCS extends javax.swing.JPanel {
     public LCS() {
         initComponents();
         
-        //Limit input of both strings to 20 chars
-        
+        //Limit input of both strings to 20 chars and exclude whitespace
         jTextField1.setDocument(new LimitDocument());
         jTextField2.setDocument(new LimitDocument());
-        
-        
        
     }
 
@@ -282,11 +280,15 @@ public class LCS extends javax.swing.JPanel {
                 "Title 1", "Title 2"
             }
         ));
+        sideTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         sideTable.setGridColor(new java.awt.Color(0, 0, 0));
         sideTable.setRowSelectionAllowed(false);
         sideTable.setShowGrid(true);
         sideTable.setTableHeader(null);
         jScrollPane5.setViewportView(sideTable);
+
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         calculationsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -310,6 +312,7 @@ public class LCS extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11", "Title 12", "Title 13", "Title 14", "Title 15"
             }
         ));
+        calculationsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         calculationsTable.setEnabled(false);
         calculationsTable.setGridColor(java.awt.Color.gray);
         calculationsTable.setRowSelectionAllowed(false);
@@ -329,6 +332,7 @@ public class LCS extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11", "Title 12", "Title 13", "Title 14", "Title 15"
             }
         ));
+        topTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         topTable.setGridColor(new java.awt.Color(0, 0, 0));
         topTable.setTableHeader(null);
         jScrollPane4.setViewportView(topTable);
@@ -351,10 +355,10 @@ public class LCS extends javax.swing.JPanel {
             .add(tablePanelLayout.createSequentialGroup()
                 .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 260, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 260, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(96, Short.MAX_VALUE))
+                .add(tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                    .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
 
         cancelButton.setText("Cancel");
@@ -429,20 +433,23 @@ public class LCS extends javax.swing.JPanel {
         stringA = jTextField1.getText();
         stringB = jTextField2.getText();
         
-        //check for empty values in either input column
+        //check for empty values in string input fields
         if(stringA.isEmpty() || stringB.isEmpty()) {
-            return;
+            //show some warning window
+            
         }
-        
-        System.out.println(stringA);
-        System.out.println(stringB);
-        
-        
+        else {
+            //run the alogrithm
+            executor = Executors.newSingleThreadExecutor();
+            lcs = new LCSAlgorithm(this);
+            executor.execute(lcs);
+        }
         
    }//GEN-LAST:event_startButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-
+        
+        executor.shutdownNow();
    }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void speedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_speedSliderStateChanged
@@ -486,6 +493,19 @@ public class LCS extends javax.swing.JPanel {
     private javax.swing.JPanel userInputPanel;
     // End of variables declaration//GEN-END:variables
 
+    
+    public String getStringA(){
+        return stringA;
+    }
+    
+    public String getStringB(){
+        return stringB;
+    }
+
+    public void setMenu(JPanel menuPanel) {
+        this.menuPanel = menuPanel;
+    }
+    
     //limits the input of the strings to `limit` characters and excludes whitespace
     private class LimitDocument extends PlainDocument {
 

@@ -9,6 +9,8 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -61,8 +63,8 @@ public class Knapsack extends javax.swing.JPanel {
     private void initComponents() {
 
         calculationsPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        calculationsAreaText = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        calculationsAreaText = new javax.swing.JTextPane();
         speedPanel = new javax.swing.JPanel();
         speedSlider = new javax.swing.JSlider();
         speedLabel = new javax.swing.JLabel();
@@ -93,10 +95,8 @@ public class Knapsack extends javax.swing.JPanel {
 
         calculationsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Calculations"));
 
-        calculationsAreaText.setColumns(20);
-        calculationsAreaText.setEditable(false);
-        calculationsAreaText.setRows(5);
-        jScrollPane1.setViewportView(calculationsAreaText);
+        calculationsAreaText.setContentType("text/html");
+        jScrollPane4.setViewportView(calculationsAreaText);
 
         org.jdesktop.layout.GroupLayout calculationsPanelLayout = new org.jdesktop.layout.GroupLayout(calculationsPanel);
         calculationsPanel.setLayout(calculationsPanelLayout);
@@ -104,14 +104,13 @@ public class Knapsack extends javax.swing.JPanel {
             calculationsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(calculationsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+                .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
                 .addContainerGap())
         );
         calculationsPanelLayout.setVerticalGroup(
             calculationsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(calculationsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane1)
+                .add(jScrollPane4)
                 .addContainerGap())
         );
 
@@ -457,6 +456,8 @@ public class Knapsack extends javax.swing.JPanel {
 
     
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        //TODO: CHECK THAT THIS IS RUNNING
+        
         //cancel the running of the algorithm
         executor.shutdownNow();
         
@@ -488,11 +489,9 @@ public class Knapsack extends javax.swing.JPanel {
         else {
         
             //TODO Disable buttons until algorithm has finished
-            
             executor = Executors.newSingleThreadExecutor();
             ka = new KnapsackAlgorithm(this);
             executor.execute(ka);
-            calculationsTable.getTableHeader().setResizingAllowed(false);
         }
     }//GEN-LAST:event_startButtonActionPerformed
 
@@ -553,16 +552,16 @@ public class Knapsack extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
-    private javax.swing.JTextArea calculationsAreaText;
+    private javax.swing.JTextPane calculationsAreaText;
     private javax.swing.JPanel calculationsPanel;
     private javax.swing.JTable calculationsTable;
     private javax.swing.JButton cancelButton;
     private javax.swing.JSpinner capacitySpinner;
     private javax.swing.JList inputValueList;
     private javax.swing.JScrollPane inputValueScrollPane;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable2;
     private javax.swing.JPanel pseudoCodePanel;
     private javax.swing.JButton removeButton;
@@ -590,7 +589,7 @@ public class Knapsack extends javax.swing.JPanel {
         return inputValueList;
     }
     
-    public JTextArea getCalculationsTextArea() {
+    public JTextPane getCalculationsTextPane() {
         return calculationsAreaText;
     }
     
@@ -660,7 +659,8 @@ public class Knapsack extends javax.swing.JPanel {
             weightList.add(6);
         }
     }
-    
+
+//Custom renderer for pseudocode table
 class CustomRenderer extends DefaultTableCellRenderer 
 {
     @Override
@@ -675,13 +675,14 @@ class CustomRenderer extends DefaultTableCellRenderer
         }
     }
 
+//Custom renderer for item list
 class CustomListRenderer extends DefaultListCellRenderer {
         
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
     Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
          if (index == listLine) {
-             c.setBackground(Color.RED);
+             c.setBackground(Color.YELLOW);
          }
          return c;
         }

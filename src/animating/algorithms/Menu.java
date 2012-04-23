@@ -147,7 +147,7 @@ public class Menu extends javax.swing.JFrame {
         this.setTitle("Lowest Common Subsequence Algorithm");
         
         LCS lcs = new LCS();
-        lcs.menu = menuPanel;
+        lcs.setMenu(menuPanel);
         lcs.setSize(1024, 768);        
         this.setContentPane(lcs);
         this.repaint();
