@@ -16,7 +16,7 @@ import javax.swing.text.PlainDocument;
  * @author ash
  */
 public class LCS extends javax.swing.JPanel {
-    
+
     private final int limit = 20;
     private int speed;
     private String stringA, stringB;
@@ -29,11 +29,11 @@ public class LCS extends javax.swing.JPanel {
      */
     public LCS() {
         initComponents();
-        
+
         //Limit input of both strings to 20 chars and exclude whitespace
         jTextField1.setDocument(new LimitDocument());
         jTextField2.setDocument(new LimitDocument());
-       
+
     }
 
     /**
@@ -428,27 +428,25 @@ public class LCS extends javax.swing.JPanel {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
 
-        
+
         //get the values of the strings
         stringA = jTextField1.getText();
         stringB = jTextField2.getText();
-        
+
         //check for empty values in string input fields
-        if(stringA.isEmpty() || stringB.isEmpty()) {
+        if (stringA.isEmpty() || stringB.isEmpty()) {
             //show some warning window
-            
-        }
-        else {
+        } else {
             //run the alogrithm
             executor = Executors.newSingleThreadExecutor();
             lcs = new LCSAlgorithm(this);
             executor.execute(lcs);
         }
-        
+
    }//GEN-LAST:event_startButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        
+
         executor.shutdownNow();
    }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -464,7 +462,6 @@ public class LCS extends javax.swing.JPanel {
         // TODO add your handling code here:
         jTextField1.setText(jTextField1.getText().toUpperCase());
     }//GEN-LAST:event_jTextField1KeyReleased
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea calculationsAreaText;
     private javax.swing.JPanel calculationsPanel;
@@ -493,36 +490,36 @@ public class LCS extends javax.swing.JPanel {
     private javax.swing.JPanel userInputPanel;
     // End of variables declaration//GEN-END:variables
 
-    
-    public String getStringA(){
+    public String getStringA() {
         return stringA;
     }
-    
-    public String getStringB(){
+
+    public String getStringB() {
         return stringB;
     }
 
     public void setMenu(JPanel menuPanel) {
         this.menuPanel = menuPanel;
     }
-    
+
     //limits the input of the strings to `limit` characters and excludes whitespace
     private class LimitDocument extends PlainDocument {
 
         @Override
         public void insertString(int offset, String string, AttributeSet atts) throws BadLocationException {
-            
+
             StringBuilder newString = new StringBuilder(string);
-            
-            for(int i = string.length() - 1; i >= 0; i--) {
-                
-                if(Character.isWhitespace(string.charAt(i))) {
+
+            for (int i = string.length() - 1; i >= 0; i--) {
+
+                if (Character.isWhitespace(string.charAt(i))) {
                     newString.deleteCharAt(i);
                 }
             }
-            
-            if(getLength() + string.length() <= limit)
+
+            if (getLength() + string.length() <= limit) {
                 super.insertString(offset, newString.toString(), atts);
+            }
+        }
     }
-}
 }

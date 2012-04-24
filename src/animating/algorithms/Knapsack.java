@@ -9,8 +9,6 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -19,20 +17,19 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author ash
  */
 public class Knapsack extends javax.swing.JPanel {
-    
-    
+
     //attributes
     int listLine, psuedoLine, speed, capacity;
-    ArrayList<Integer> valueList, weightList;
+    ArrayList<Integer> valueList, weightList, itemsUsed;
     DefaultListModel ListModel;
     KnapsackAlgorithm ka;
     ExecutorService executor;
-    
+
     /**
      * Creates new form Knapsack
      */
     public Knapsack() {
-        
+
         //init attributes
         psuedoLine = -1;
         listLine = -1;
@@ -41,18 +38,17 @@ public class Knapsack extends javax.swing.JPanel {
         ListModel = new DefaultListModel();
         valueList = new ArrayList<Integer>();
         weightList = new ArrayList<Integer>();
-        
+        itemsUsed = new ArrayList<Integer>();
+
         //init GUI
         initComponents();
-        
+
         //set custom renderer for pseduocode table and input list
         jTable2.setDefaultRenderer(String.class, new CustomRenderer());
         inputValueList.setCellRenderer(new CustomListRenderer());
     }
-    
-    //methods
-    
 
+    //methods
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -96,6 +92,7 @@ public class Knapsack extends javax.swing.JPanel {
         calculationsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Calculations"));
 
         calculationsAreaText.setContentType("text/html");
+        calculationsAreaText.setEditable(false);
         jScrollPane4.setViewportView(calculationsAreaText);
 
         org.jdesktop.layout.GroupLayout calculationsPanelLayout = new org.jdesktop.layout.GroupLayout(calculationsPanel);
@@ -454,40 +451,37 @@ public class Knapsack extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         //TODO: CHECK THAT THIS IS RUNNING
-        
+
         //cancel the running of the algorithm
         executor.shutdownNow();
-        
+
         //clear the data-structures ready for new input
         valueList.clear();
         weightList.clear();
         ListModel.clear();
-        
+        calculationsAreaText.setText("");
+
         JOptionPane.showMessageDialog(this, "Algorithm cancelled.", "Cancelled", JOptionPane.OK_OPTION);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-       
+
         //FOR TESTING WILL BE REMOVED
-        if(valueList.isEmpty() || weightList.isEmpty())
+        if (valueList.isEmpty() || weightList.isEmpty()) {
             enterTestData();
-        
+        }
+
         //check if there are values in the arrays, display error if not
-        if(valueList.isEmpty() || weightList.isEmpty()) {
+        if (valueList.isEmpty() || weightList.isEmpty()) {
             JOptionPane.showMessageDialog(this, "You cannot run the algorithm without values.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        
-        else if(valueList.size() < 2) {
+        } else if (valueList.size() < 2) {
             JOptionPane.showMessageDialog(this, "You need to have more than 1 weight/value.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(capacity < 2) {
+        } else if (capacity < 2) {
             JOptionPane.showMessageDialog(this, "The capacity should be larger than ", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else {
-        
+        } else {
+
             //TODO Disable buttons until algorithm has finished
             executor = Executors.newSingleThreadExecutor();
             ka = new KnapsackAlgorithm(this);
@@ -499,10 +493,10 @@ public class Knapsack extends javax.swing.JPanel {
         // add visual representation to jlist and add to alogrithm model
         Integer value = (Integer) valueSpinner.getValue();
         Integer weight = (Integer) weightSpinner.getValue();
-        
+
         ListModel.addElement("Value: " + valueSpinner.getValue() + ", Weight: " + weightSpinner.getValue());
-             
-        if(valueList.isEmpty() && weightList.isEmpty()) {
+
+        if (valueList.isEmpty() && weightList.isEmpty()) {
             valueList.add(null);
             weightList.add(null);
         }
@@ -511,21 +505,20 @@ public class Knapsack extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        
+
         // if an item is not selected then remove the last one
         // else remove the selected item        
-        if(inputValueList.isSelectionEmpty()) {
+        if (inputValueList.isSelectionEmpty()) {
             int position = ListModel.getSize() - 1;
-            if(position >= 0) {
+            if (position >= 0) {
                 ListModel.remove(position);
                 valueList.remove(position);
                 weightList.remove(position);
             }
-        }
-        else {
+        } else {
             int[] selected = inputValueList.getSelectedIndices();
             ListModel.removeElementAt(selected[0]);
-            
+
             for (int i = 0; i < selected.length; i++) {
                 valueList.remove(i);
                 weightList.remove(i);
@@ -537,19 +530,20 @@ public class Knapsack extends javax.swing.JPanel {
         ListModel.clear();
         valueList.clear();
         weightList.clear();
+        itemsUsed.clear();
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void speedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_speedSliderStateChanged
         speed = speedSlider.getValue();
         speedValueLabel.setText(speed + "%");
-        if(ka != null)
+        if (ka != null) {
             ka.setSpeed(speed);
+        }
     }//GEN-LAST:event_speedSliderStateChanged
 
     private void capacitySpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_capacitySpinnerStateChanged
         capacity = Integer.parseInt(capacitySpinner.getValue().toString());
     }//GEN-LAST:event_capacitySpinnerStateChanged
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JTextPane calculationsAreaText;
@@ -584,62 +578,68 @@ public class Knapsack extends javax.swing.JPanel {
     public JTable getCalculationsTable() {
         return calculationsTable;
     }
-    
+
     public JList getValueInputList() {
         return inputValueList;
     }
-    
+
     public JTextPane getCalculationsTextPane() {
         return calculationsAreaText;
     }
-    
+
     public int getSpeed() {
         return speed;
     }
-    
+
     public ArrayList<Integer> getValueList() {
         return valueList;
     }
-    
+
     public ArrayList<Integer> getWeightList() {
         return weightList;
     }
-    
+
+    public ArrayList<Integer> getItemsUsed() {
+        return itemsUsed;
+    }
+
     public int getCapacity() {
         return capacity;
     }
-    
+
     public int getPsuedoCodeLine() {
         return psuedoLine;
     }
-    
+
     public void setPsuedoCodeLine(int line) {
         psuedoLine = line;
     }
-    
+
     public void incPseudoCodeLine() {
         psuedoLine++;
     }
-    
+
     public int getListLine() {
         return listLine;
     }
-    
+
     public void setListLine(int line) {
         listLine = line;
+        inputValueList.repaint();
     }
 
     private void enterTestData() {
-        
-        if(valueList.isEmpty() && weightList.isEmpty()) {
-            //Test data
-            
-            capacity = Integer.parseInt(capacitySpinner.getValue().toString());
-            System.out.println(capacity);
-            
-            if(capacity == 1)
-                capacity = 18;
 
+        if (valueList.isEmpty() && weightList.isEmpty()) {
+            //Test data
+
+            capacity = Integer.parseInt(capacitySpinner.getValue().toString());
+
+            if (capacity == 1) {
+                capacity = 18;
+            }
+
+            valueList.clear();
             valueList.add(null);
             valueList.add(12);
             valueList.add(10);
@@ -649,6 +649,7 @@ public class Knapsack extends javax.swing.JPanel {
             valueList.add(7);
             valueList.add(9);
 
+            weightList.clear();
             weightList.add(null);
             weightList.add(4);
             weightList.add(6);
@@ -657,35 +658,50 @@ public class Knapsack extends javax.swing.JPanel {
             weightList.add(3);
             weightList.add(1);
             weightList.add(6);
+
+            ListModel.clear();
+            for (int i = 1; i < valueList.size(); i++) {
+                ListModel.addElement("Value: " + valueList.get(i) + ", Weight: " + weightList.get(i));
+            }
         }
-    }
+    }   
 
 //Custom renderer for pseudocode table
-class CustomRenderer extends DefaultTableCellRenderer 
-{
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-    {
+    class CustomRenderer extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JLabel d = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            if((row == psuedoLine) && (column == 0))
+            if ((row == psuedoLine) && (column == 0)) {
                 d.setBackground(Color.RED);
-            else
+            } else {
                 d.setBackground(null);
+            }
             return d;
         }
     }
 
 //Custom renderer for item list
-class CustomListRenderer extends DefaultListCellRenderer {
-        
-    @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-    Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-         if (index == listLine) {
-             c.setBackground(Color.YELLOW);
-         }
-         return c;
+    class CustomListRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            Component c = super.getListCellRendererComponent(list, value, index, false, false);
+            if (itemsUsed.isEmpty()) {
+                if (index == listLine) {
+                    c.setBackground(Color.YELLOW);
+                } else {
+                    c.setBackground(null);
+                }
+                return c;
+            } else {
+                
+                if (itemsUsed.contains(new Integer(index + 1))) //JList is 0-indexed
+                    c.setBackground(Color.YELLOW);
+                else
+                    c.setBackground(null);
+            }
+            return c;
         }
     }
-
 }
