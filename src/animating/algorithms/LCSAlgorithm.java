@@ -4,6 +4,10 @@
  */
 package animating.algorithms;
 
+import java.util.Arrays;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -20,13 +24,17 @@ public final class LCSAlgorithm implements Runnable {
     //attributes
     LCS lcsGUI;
     long textTime;
+    JTable topTable, sideTable, coreTable;
+    
+    //Table Models
+    DefaultTableModel LCSTopModel, LCSSideModel, LCSCoreModel;
     
     /** The length of an LCS of a subproblem.  <code>c[i][j]</code> is
      * the length of an LCS of prefixes <i>X</i><sub><i>i</i></sub>
      * and <i>Y</i><sub><i>j</i></sub>, for 0 &#x2264; <i>i</i>
      * &#x2264; <i>m</i>-1 and 0 &#x2264; <i>j</i> &#x2264;
      * <i>n</i>-1. */
-    private Integer[][] c;
+    private Integer[][] core;
 
     /** The table entry used in constructing an LCS of prefixes
      * <i>X</i><sub><i>i</i></sub> and <i>Y</i><sub><i>j</i></sub>,
@@ -42,6 +50,7 @@ public final class LCSAlgorithm implements Runnable {
 
     /** The input X.  Needed for reconstructing an optimal solution. */
     private final String x, y;
+    private int speed;
 
     public LCSAlgorithm(LCS lcsGUI) {
 
@@ -49,15 +58,58 @@ public final class LCSAlgorithm implements Runnable {
         x = lcsGUI.getStringA();
         y = lcsGUI.getStringB();
         
-        m = x.length();
-	n = lcsGUI.getStringB().length();
-
+        n = x.length();                     //ROW
+	m = y.length();                     //COLUMN
         
-	c = new Integer[m+1][n+1];
+	core = new Integer[m+1][n+1];
 	b = new Direction[m+1][n+1];
         
-        //TODO: SETUP TABLE MODEL HERE
+        //dummy headers
+        String[] coreHeaders = new String[m+1];
         
+        for(Integer[] array : core) {
+            System.out.println(Arrays.toString(array));
+        }
+        
+        //Get tables from GUI
+        this.topTable = lcsGUI.getTopTable();
+        this.sideTable = lcsGUI.getSideTable();
+        this.coreTable = lcsGUI.getCalculationsTable();
+        
+        //create array for info in top and side columns
+        String[][] side = new String[n+1][2];
+        String[] sideHeaders = new String[2];
+        
+        for(int i = 0; i < side.length; i++) {
+            side[i][0] = "" + i;
+            if(i == 0)
+                side[0][1] = "xi";
+            else
+                side[i][1] = "" + x.charAt(i-1);
+        }
+        
+        String[][] top = new String[2][m+1];
+        String[] topHeaders = new String[m+1];
+        
+        for(int i = 0; i < top[0].length; i++) {
+            top[0][i] = "" + i;
+            if(i == 0)
+                top[1][0] = "yi";
+            else
+                top[1][i] = "" + y.charAt(i-1);
+        }
+        
+        
+        //TODO: SETUP TABLE MODEL HERE
+        LCSCoreModel = new DefaultTableModel(core, coreHeaders);
+        LCSTopModel = new DefaultTableModel(top,topHeaders);
+        LCSSideModel = new DefaultTableModel(side, sideHeaders);
+        
+        topTable.setModel(LCSTopModel);
+        sideTable.setModel(LCSSideModel);
+        coreTable.setModel(LCSCoreModel);
+        coreTable.setTableHeader(null);
+        coreTable.repaint();
     }
 
     @Override
@@ -69,12 +121,12 @@ public final class LCSAlgorithm implements Runnable {
             Thread.sleep(textTime);
             
             for (int i = 0; i <= m; i++) {
-                c[i][0] = new Integer(0);
+                core[i][0] = new Integer(0);
             }
 
             //zero out the first column
             for (int j = 0; j <= n; j++) {
-                c[0][j] = new Integer(0);
+                core[0][j] = new Integer(0);
             }
 
             //for all characters in m
@@ -87,19 +139,19 @@ public final class LCSAlgorithm implements Runnable {
 
                         //get the current match number and add one
                         //assign this to the 
-                        c[i][j] = new Integer(c[i - 1][j - 1].intValue() + 1);
+                        core[i][j] = new Integer(core[i - 1][j - 1].intValue() + 1);
                         b[i][j] = UP_AND_LEFT;
                     } //if the 2 characters don't match
                     else {
                         //Check to see if a higher match has been made already
                         //If so assign that higher match to this cell and label it up
-                        if (c[i - 1][j] >= c[i][j - 1]) {
-                            c[i][j] = c[i - 1][j];
+                        if (core[i - 1][j] >= core[i][j - 1]) {
+                            core[i][j] = core[i - 1][j];
                             b[i][j] = UP;
                         } //Else the previous match is less or equal to the current match
                         //assign the value from the left and assign label left
                         else {
-                            c[i][j] = c[i][j - 1];
+                            core[i][j] = core[i][j - 1];
                             b[i][j] = LEFT;
                         }
                     }
@@ -167,6 +219,10 @@ public final class LCSAlgorithm implements Runnable {
     public String toString()
     {
 	return printLCS(m, n);
+    }
+
+    void setSpeed(int speed) {
+        this.speed = speed;
     }
     
     //METHOD TO FILL IN TOP AND SIDE TABLES
