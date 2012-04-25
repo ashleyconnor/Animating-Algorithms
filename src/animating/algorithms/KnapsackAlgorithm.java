@@ -285,7 +285,6 @@ public final class KnapsackAlgorithm implements Runnable {
 
         this.speed = speed;
         actionTime = 31250 / speed;
-        sleepTime = 50000 / speed;
 
         if (speed <= 50) {
             textTime = 4000;

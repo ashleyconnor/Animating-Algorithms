@@ -4,17 +4,31 @@
  */
 package animating.algorithms;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author ash
  */
 public class MatrixChain extends javax.swing.JPanel {
+    
+    int speed;
+    private MatrixChainAlgorithm matrix;
+    ExecutorService executor;
+    ArrayList<Integer> inputList;
+    DefaultListModel ListModel;
 
     /**
      * Creates new form MatrixChain
      */
     public MatrixChain() {
         initComponents();
+        
+        inputList = new ArrayList<Integer>();
+        ListModel = new DefaultListModel();
     }
 
     /**
@@ -26,28 +40,488 @@ public class MatrixChain extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        calculationsPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        calculationsTextPane = new javax.swing.JTextPane();
+        pseudoCodePanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        speedPanel = new javax.swing.JPanel();
+        speedSlider = new javax.swing.JSlider();
+        speedLabel = new javax.swing.JLabel();
+        speedValueLabel = new javax.swing.JLabel();
+        tablePanel = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        calculationsTable = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        sideTable = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        topTable = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        topTable1 = new javax.swing.JTable();
+        userInputPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        inputDisplayList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
+        dimensionASpinner = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
+        dimensionBSpinner = new javax.swing.JSpinner();
+        removeButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        resetButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        startButton = new javax.swing.JButton();
 
-        jLabel1.setText("Matrix Chain");
+        setMinimumSize(new java.awt.Dimension(1024, 768));
+
+        calculationsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Calculations"));
+
+        calculationsTextPane.setContentType("text/html");
+        jScrollPane2.setViewportView(calculationsTextPane);
+
+        org.jdesktop.layout.GroupLayout calculationsPanelLayout = new org.jdesktop.layout.GroupLayout(calculationsPanel);
+        calculationsPanel.setLayout(calculationsPanelLayout);
+        calculationsPanelLayout.setHorizontalGroup(
+            calculationsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(calculationsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        calculationsPanelLayout.setVerticalGroup(
+            calculationsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(calculationsPanelLayout.createSequentialGroup()
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pseudoCodePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Psuedocode"));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"code line 1"},
+                {"code line 2"},
+                {"code line 3"},
+                {"code line 4"},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Pseudocode"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.setEnabled(false);
+        jTable2.setRowSelectionAllowed(false);
+        jTable2.setShowGrid(true);
+        jTable2.setTableHeader(null);
+        jScrollPane3.setViewportView(jTable2);
+
+        org.jdesktop.layout.GroupLayout pseudoCodePanelLayout = new org.jdesktop.layout.GroupLayout(pseudoCodePanel);
+        pseudoCodePanel.setLayout(pseudoCodePanelLayout);
+        pseudoCodePanelLayout.setHorizontalGroup(
+            pseudoCodePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, pseudoCodePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane3)
+                .addContainerGap())
+        );
+        pseudoCodePanelLayout.setVerticalGroup(
+            pseudoCodePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pseudoCodePanelLayout.createSequentialGroup()
+                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        speedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Speed"));
+        speedPanel.setPreferredSize(new java.awt.Dimension(250, 80));
+
+        speedSlider.setMinimum(10);
+        speedSlider.setMinorTickSpacing(10);
+        speedSlider.setPaintLabels(true);
+        speedSlider.setPaintTicks(true);
+        speedSlider.setSnapToTicks(true);
+        speedSlider.setFocusable(false);
+        speedSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                speedSliderStateChanged(evt);
+            }
+        });
+
+        speedLabel.setText("Speed:");
+
+        speedValueLabel.setText("50%");
+
+        org.jdesktop.layout.GroupLayout speedPanelLayout = new org.jdesktop.layout.GroupLayout(speedPanel);
+        speedPanel.setLayout(speedPanelLayout);
+        speedPanelLayout.setHorizontalGroup(
+            speedPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(speedPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(speedSlider, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(speedLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(speedValueLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 38, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        speedPanelLayout.setVerticalGroup(
+            speedPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(speedPanelLayout.createSequentialGroup()
+                .add(speedPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(speedPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(speedSlider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(speedPanelLayout.createSequentialGroup()
+                        .add(15, 15, 15)
+                        .add(speedPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(speedLabel)
+                            .add(speedValueLabel))))
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
+
+        tablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Value Table"));
+        tablePanel.setPreferredSize(new java.awt.Dimension(495, 400));
+
+        jScrollPane6.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        calculationsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        calculationsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        calculationsTable.setAutoscrolls(false);
+        calculationsTable.setEnabled(false);
+        calculationsTable.setGridColor(new java.awt.Color(102, 102, 102));
+        calculationsTable.setShowGrid(true);
+        calculationsTable.setTableHeader(null);
+        jScrollPane6.setViewportView(calculationsTable);
+
+        jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane5.setRequestFocusEnabled(false);
+        jScrollPane5.setRowHeaderView(null);
+
+        sideTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        sideTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        sideTable.setGridColor(new java.awt.Color(0, 0, 0));
+        sideTable.setRowSelectionAllowed(false);
+        sideTable.setShowGrid(true);
+        sideTable.setTableHeader(null);
+        jScrollPane5.setViewportView(sideTable);
+
+        jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane4.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        topTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        topTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        topTable.setGridColor(new java.awt.Color(0, 0, 0));
+        topTable.setTableHeader(null);
+        jScrollPane4.setViewportView(topTable);
+
+        jScrollPane7.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane7.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        topTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        topTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        topTable1.setGridColor(new java.awt.Color(0, 0, 0));
+        topTable1.setTableHeader(null);
+        jScrollPane7.setViewportView(topTable1);
+
+        org.jdesktop.layout.GroupLayout tablePanelLayout = new org.jdesktop.layout.GroupLayout(tablePanel);
+        tablePanel.setLayout(tablePanelLayout);
+        tablePanelLayout.setHorizontalGroup(
+            tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tablePanelLayout.createSequentialGroup()
+                .add(45, 45, 45)
+                .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+                    .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
+        tablePanelLayout.setVerticalGroup(
+            tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, tablePanelLayout.createSequentialGroup()
+                .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 60, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(tablePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .add(jScrollPane6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        userInputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("User Input"));
+        userInputPanel.setPreferredSize(new java.awt.Dimension(250, 320));
+
+        jScrollPane1.setViewportView(inputDisplayList);
+
+        jLabel1.setText("Dimension A");
+
+        dimensionASpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(100), Integer.valueOf(1)));
+
+        jLabel2.setText("Dimension B");
+
+        dimensionBSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(100), Integer.valueOf(1)));
+
+        removeButton.setText("Remove");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
+
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+
+        resetButton.setText("Reset");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout userInputPanelLayout = new org.jdesktop.layout.GroupLayout(userInputPanel);
+        userInputPanel.setLayout(userInputPanelLayout);
+        userInputPanelLayout.setHorizontalGroup(
+            userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(userInputPanelLayout.createSequentialGroup()
+                .add(6, 6, 6)
+                .add(jScrollPane1)
+                .add(6, 6, 6))
+            .add(userInputPanelLayout.createSequentialGroup()
+                .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(userInputPanelLayout.createSequentialGroup()
+                        .add(12, 12, 12)
+                        .add(jLabel1))
+                    .add(addButton))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(userInputPanelLayout.createSequentialGroup()
+                        .add(dimensionASpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(jLabel2)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(dimensionBSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 36, Short.MAX_VALUE))
+                    .add(userInputPanelLayout.createSequentialGroup()
+                        .add(removeButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(resetButton)))
+                .addContainerGap())
+        );
+        userInputPanelLayout.setVerticalGroup(
+            userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(userInputPanelLayout.createSequentialGroup()
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(dimensionASpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel1)
+                    .add(dimensionBSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel2))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 42, Short.MAX_VALUE)
+                .add(userInputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(removeButton)
+                    .add(resetButton)
+                    .add(addButton))
+                .addContainerGap())
+        );
+
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        startButton.setText("Start");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtonActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(344, 344, 344)
-                .add(jLabel1)
-                .addContainerGap(376, Short.MAX_VALUE))
+                .addContainerGap()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(calculationsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(pseudoCodePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(layout.createSequentialGroup()
+                                .add(cancelButton)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(startButton))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, speedPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, userInputPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(tablePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 622, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(263, 263, 263)
-                .add(jLabel1)
-                .addContainerGap(321, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(17, 17, 17)
+                        .add(pseudoCodePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(calculationsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(layout.createSequentialGroup()
+                        .add(speedPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(13, 13, 13)
+                        .add(userInputPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 277, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(tablePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))
+                .add(138, 138, 138)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(cancelButton)
+                    .add(startButton))
+                .add(11, 11, 11))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void speedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_speedSliderStateChanged
+        speed = speedSlider.getValue();
+        speedValueLabel.setText(speed + "%");
+        if (matrix != null) {
+            matrix.setSpeed(speed);
+        }
+    }//GEN-LAST:event_speedSliderStateChanged
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        if (executor != null) {
+            executor.shutdownNow();
+        }
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+
+            executor = Executors.newSingleThreadExecutor();
+            matrix = new MatrixChainAlgorithm(this);
+            executor.execute(matrix);
+    }//GEN-LAST:event_startButtonActionPerformed
+
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        if(inputList.isEmpty()) {
+            Integer dimesionA = (Integer) dimensionASpinner.getValue();
+            inputList.add(dimesionA);
+        }
+        
+        Integer dimesionB = (Integer) dimensionBSpinner.getValue();
+        inputList.add(dimesionB);
+        
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        // TODO add your handling code here:
+        
+        inputList.clear();
+    }//GEN-LAST:event_resetButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JPanel calculationsPanel;
+    private javax.swing.JTable calculationsTable;
+    private javax.swing.JTextPane calculationsTextPane;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JSpinner dimensionASpinner;
+    private javax.swing.JSpinner dimensionBSpinner;
+    private javax.swing.JList inputDisplayList;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JPanel pseudoCodePanel;
+    private javax.swing.JButton removeButton;
+    private javax.swing.JButton resetButton;
+    private javax.swing.JTable sideTable;
+    private javax.swing.JLabel speedLabel;
+    private javax.swing.JPanel speedPanel;
+    private javax.swing.JSlider speedSlider;
+    private javax.swing.JLabel speedValueLabel;
+    private javax.swing.JButton startButton;
+    private javax.swing.JPanel tablePanel;
+    private javax.swing.JTable topTable;
+    private javax.swing.JTable topTable1;
+    private javax.swing.JPanel userInputPanel;
     // End of variables declaration//GEN-END:variables
+    
+    public ArrayList<Integer> getInputList() {
+        
+        return inputList;
+    }
+
 }

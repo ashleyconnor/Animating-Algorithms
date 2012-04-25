@@ -94,8 +94,8 @@ public final class LCSAlgorithm implements Runnable {
         yellowCell = new int[2];
 
         //speed
-        textTime = 100;
-        actionTime = 100;
+        speed = lcsGUI.getSpeed();
+        setSpeed(speed);
 
         resetCellColors();
 
@@ -338,8 +338,17 @@ public final class LCSAlgorithm implements Runnable {
         return printLCS(m, n);
     }
 
-    void setSpeed(int speed) {
+    public void setSpeed(int speed) {   
         this.speed = speed;
+        actionTime = 31250 / speed;
+
+        if (speed <= 50) {
+            textTime = 4000;
+        } else if (speed > 50 && speed < 80) {
+            textTime = 3000;
+        } else {
+            textTime = 2000;
+        }
     }
 
     private int valueAt(int x, int y) {

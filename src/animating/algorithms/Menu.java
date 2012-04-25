@@ -169,10 +169,12 @@ public class Menu extends javax.swing.JFrame {
     private void matrixMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matrixMenuButtonActionPerformed
         // TODO add your handling code here:
         this.remove(menuPanel);
+        this.resize(1024,768);
+        this.setLocationRelativeTo(null);
         this.setTitle("Matrix Chain Multiplication Algorithm");
         
         MatrixChain matrix = new MatrixChain();
-        matrix.setSize(800, 600);        
+        matrix.setSize(1024, 768);        
         this.setContentPane(matrix);
         this.repaint();
     }//GEN-LAST:event_matrixMenuButtonActionPerformed

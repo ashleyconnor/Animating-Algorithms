@@ -35,6 +35,9 @@ public class LCS extends javax.swing.JPanel {
         //Limit input of both strings to 20 chars and exclude whitespace
         jTextField1.setDocument(new LimitDocument());
         jTextField2.setDocument(new LimitDocument());
+        
+        //set speed
+        speed = 50;
     }
 
     /**
@@ -500,6 +503,10 @@ public class LCS extends javax.swing.JPanel {
 
     public void setMenu(JPanel menuPanel) {
         this.menuPanel = menuPanel;
+    }
+
+    int getSpeed() {
+        return speed;
     }
 
     //limits the input of the strings to `limit` characters and excludes whitespace
