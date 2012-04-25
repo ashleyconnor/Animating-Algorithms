@@ -455,15 +455,15 @@ public class Knapsack extends javax.swing.JPanel {
         //TODO: CHECK THAT THIS IS RUNNING
 
         //cancel the running of the algorithm
-        executor.shutdownNow();
-
-        //clear the data-structures ready for new input
-        valueList.clear();
-        weightList.clear();
-        ListModel.clear();
-        calculationsAreaText.setText("");
-
-        JOptionPane.showMessageDialog(this, "Algorithm cancelled.", "Cancelled", JOptionPane.OK_OPTION);
+        if(executor != null) {
+            executor.shutdownNow();
+            JOptionPane.showMessageDialog(this, "Algorithm cancelled.", "Cancelled", JOptionPane.OK_OPTION);
+            //clear the data-structures ready for new input
+            valueList.clear();
+            weightList.clear();
+            ListModel.clear();
+            calculationsAreaText.setText("");
+        }  
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed

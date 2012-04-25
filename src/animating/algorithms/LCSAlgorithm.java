@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,16 +24,14 @@ public final class LCSAlgorithm implements Runnable {
     private static final Direction UP_AND_LEFT = new Direction("UP AND LEFT");
     //attributes
     LCS lcsGUI;
-    long textTime;
+    long textTime, actionTime;
     JTable topTable, sideTable, coreTable;
     String[] coreHeaders, topHeaders, sideHeaders;
     String[][] top, side;
+    JTextPane calculationsArea;
     //Table Models
     DefaultTableModel LCSTopModel, LCSSideModel, LCSCoreModel;
-    
-    
-    private int[] redCell, cyanCell, greenCell;
-    
+    private int[] redCell, cyanCell, greenCell, yellowCell;
     /**
      * The length of an LCS of a subproblem.
      * <code>c[i][j]</code> is the length of an LCS of prefixes
@@ -65,6 +64,9 @@ public final class LCSAlgorithm implements Runnable {
     public LCSAlgorithm(LCS lcsGUI) {
 
         this.lcsGUI = lcsGUI;
+
+        calculationsArea = lcsGUI.getCalculationsTextPane();
+
         x = lcsGUI.getStringA();
         y = lcsGUI.getStringB();
 
@@ -84,15 +86,17 @@ public final class LCSAlgorithm implements Runnable {
         this.topTable = lcsGUI.getTopTable();
         this.sideTable = lcsGUI.getSideTable();
         this.coreTable = lcsGUI.getCalculationsTable();
-        
+
         //initialise
         redCell = new int[2];
         cyanCell = new int[2];
         greenCell = new int[2];
-        
+        yellowCell = new int[2];
+
         //speed
-        textTime = 500;
-        
+        textTime = 100;
+        actionTime = 100;
+
         resetCellColors();
 
         //create array for info in top and side columns
@@ -133,7 +137,7 @@ public final class LCSAlgorithm implements Runnable {
         //TODO: CUSTOM REDERERS FOR TOP AND SIDE
         topTable.setDefaultRenderer(Object.class, new TopCustomRenderer());
         sideTable.setDefaultRenderer(Object.class, new SideCustomRenderer());
-        
+
         coreTable.setDefaultRenderer(Object.class, new CoreCustomRenderer());
 
     }
@@ -147,25 +151,31 @@ public final class LCSAlgorithm implements Runnable {
             System.out.println(y);
             //zero out the first row
             //set some message
+
+            calculationsArea.setText(
+                    "<html><div style=\"font-size: 15pt; text-align: center\">"
+                    + "First we zero out the first row and column."
+                    + "</div></html>");
             Thread.sleep(textTime);
 
+            //zero out the first row
             for (int i = 0; i <= m; i++) {
                 setAt(new Integer(0), 0, i);
                 core[i][0] = new Integer(0);
                 setCell(redCell, 0, i);
                 coreTable.repaint();
-                Thread.sleep(textTime);
+                Thread.sleep(actionTime);
             }
 
             //zero out the first column
             for (int j = 0; j <= n; j++) {
                 core[0][j] = new Integer(0);
                 setAt(new Integer(0), j, 0);
-                setCell(redCell, j ,0);
+                setCell(redCell, j, 0);
                 coreTable.repaint();
-                Thread.sleep(textTime);
+                Thread.sleep(actionTime);
             }
-            
+
             resetCellColors();
 
             //for all characters in m
@@ -173,43 +183,94 @@ public final class LCSAlgorithm implements Runnable {
                 //for all characters in n
                 for (int j = 1; j <= n; j++) {
                     
-                    setCell(cyanCell, 1, j);
-                    setCell(greenCell, j, 1);
-                    
+                    resetCellColors();
+
+                    setCell(cyanCell, j, 1);
+                    setCell(greenCell, 1, i);
+                    setCell(redCell, j, i);
+
+                    calculationsArea.setText(
+                            "<html><div style=\"font-size: 20pt; text-align: center\">"
+                            + "We check to see if "
+                            + "<span style=\"background-color: #00ff00\">" + index(x, i) + "</span>" + //green
+                            " matches <span style=\"background-color: #00ffff\">" + index(y, j) + "</span>"
+                            + "</div></html>");
+
                     Thread.sleep(textTime);
 
                     //if the 2 characters match
                     if (index(x, i) == index(y, j)) {
 
-                        //get the current match number and add one
-                        //assign this to the cell
+                        setCell(yellowCell, i - 1, j - 1);
                         core[i][j] = new Integer(core[i - 1][j - 1].intValue() + 1);
-
                         setAt(new Integer(valueAt(j - 1, i - 1) + 1), j, i);
-
                         b[i][j] = UP_AND_LEFT;
+                        
+                        calculationsArea.setText(
+                                "<html><div style=\"font-size: 20pt; text-align: center\">"
+                                + "They DO match!<br />So we get the current match total " +
+                                "<span style=\"background-color: #fff000\">" + valueAt(j - 1, i - 1) + "</span>" + //yellow
+                                " and add <strong>1</strong> bringing our match total to <span style=\"background-color: #ff0000\">" + ((valueAt(j - 1, i - 1)) + 1) + "</span>" + //red
+                                "</div></html>");
+
+                        Thread.sleep(textTime);
+
+
                     } //if the 2 characters don't match
                     else {
                         //Check to see if a higher match has been made already
                         //If so assign that higher match to this cell and label it up
+                        calculationsArea.setText(
+                                "<html><div style=\"font-size: 20pt; text-align: center\">" + 
+                                "They DON'T match!<br />So we check to see if a higher match has been made already." +
+                                "</div></html>");
+                        
+                        Thread.sleep(textTime);
+                        
                         if (valueAt(j, i - 1) >= valueAt(j - 1, i)) {
+                            
+                            calculationsArea.setText(
+                                "<html><div style=\"font-size: 20pt; text-align: center\">"
+                                + "This value "
+                                + "<span style=\"background-color: #fff000\">" + valueAt(j, i - 1) + "</span>" + //yellow
+                                " is <strong>&#8805;</strong> <span style=\"background-color: #ff0000\">" + (valueAt(j - 1, i)) + "</span>" + //red
+                                "</div></html>");
 
+                            setCell(yellowCell, j, i - 1);
                             core[i][j] = core[i - 1][j];
-
                             setAt(valueAt(j, i - 1), j, i);
                             b[i][j] = UP;
-                        } 
-                        //Else the previous match is less or equal to the current match
+                            
+                            Thread.sleep(textTime);
+                            
+                        } //Else the previous match is less than the current match
                         //assign the value from the left and assign label left
                         else {
+                            
+                            calculationsArea.setText(
+                                "<html><div style=\"font-size: 20pt; text-align: center\">"
+                                + "This value "
+                                + "<span style=\"background-color: #fff000\">" + valueAt(j, i - 1) + "</span>" + //yellow
+                                " is <strong>&#60;</strong> <span style=\"background-color: #ff0000\">" + (valueAt(j - 1, i)) + "</span>" + //red
+                                "</div></html>");
+
+                            setCell(yellowCell, j - 1, i);
                             setAt(valueAt(j - 1, i), j, i);
                             core[i][j] = core[i][j - 1];
                             b[i][j] = LEFT;
+                            
+                            Thread.sleep(textTime);
                         }
                     }
                 }
             }
-
+            
+            calculationsArea.setText(
+                "<html><div style=\"font-size: 20pt; text-align: center\">"+ 
+                "The final substring of:<br /> " + x + ", " + y + 
+                "<br />= " + toString() +
+                "</div></html>");
+            resetCellColors();
             System.out.println(toString());
 
         } catch (InterruptedException ex) {
@@ -294,13 +355,16 @@ public final class LCSAlgorithm implements Runnable {
     private void resetCellColors() {
         redCell[0] = -1;
         redCell[1] = -1;
-        
+
         cyanCell[0] = -1;
         cyanCell[1] = -1;
-        
+
         greenCell[0] = -1;
         greenCell[1] = -1;
-        
+
+        yellowCell[0] = -1;
+        yellowCell[1] = -1;
+
         coreTable.repaint();
         topTable.repaint();
         sideTable.repaint();
@@ -309,7 +373,7 @@ public final class LCSAlgorithm implements Runnable {
     private void setCell(int[] cell, int x, int y) {
         cell[0] = x;
         cell[1] = y;
-        
+
         coreTable.repaint();
         topTable.repaint();
         sideTable.repaint();
@@ -353,25 +417,25 @@ public final class LCSAlgorithm implements Runnable {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JLabel e = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            if(row == greenCell[0] && column == greenCell[1]) {
+            if (row == greenCell[0] && column == greenCell[1]) {
                 e.setBackground(Color.GREEN);
-            }
-            else
+            } else {
                 e.setBackground(null);
+            }
             return e;
         }
     }
-    
+
     class SideCustomRenderer extends DefaultTableCellRenderer {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JLabel e = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            if(row == cyanCell[0] && column == cyanCell[1]) {
+            if (row == cyanCell[0] && column == cyanCell[1]) {
                 e.setBackground(Color.CYAN);
-            }
-            else
+            } else {
                 e.setBackground(null);
+            }
             return e;
         }
     }
@@ -382,12 +446,17 @@ public final class LCSAlgorithm implements Runnable {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JLabel e = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            
-            if(row == redCell[0] && column == redCell[1]) {
+
+            if (row == redCell[0] && column == redCell[1]) {
                 e.setBackground(Color.RED);
+                return e;
             }
-            else
+            if (row == yellowCell[0] && column == yellowCell[1]) {
+                e.setBackground(Color.yellow);
+                return e;
+            } else {
                 e.setBackground(null);
+            }
             return e;
         }
     }
