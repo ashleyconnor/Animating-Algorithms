@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package animating.algorithms;
 
 import java.awt.Component;
@@ -15,8 +11,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * This class contains the Knapsack 0/1 algorithm
  *
- * @author Ashley Connor
+ * @author Ashley Connor <ash.connor@gmail.com>
  */
 public final class KnapsackAlgorithm implements Runnable {
 
@@ -32,18 +29,25 @@ public final class KnapsackAlgorithm implements Runnable {
     DefaultTableModel knapsackTableModel;
     private int weightLeft;
 
+    /**
+     * Constructor for the Knapsack algorithm. Takes the algorithms view as a
+     * parameter.
+     *
+     * @param knapsackGUI
+     */
     public KnapsackAlgorithm(Knapsack knapsackGUI) {
 
         this.knapsackGUI = knapsackGUI;
 
+        //get values for required attributes from GUI
         table = knapsackGUI.getCalculationsTable();
         calculationsArea = knapsackGUI.getCalculationsTextPane();
         valueInputList = knapsackGUI.getValueInputList();
-        
+
         value = knapsackGUI.getValueList();
         weight = knapsackGUI.getWeightList();
         itemsUsed = knapsackGUI.getItemsUsed();
-        
+
         capacity = knapsackGUI.getCapacity();
         speed = knapsackGUI.getSpeed();
 
@@ -74,6 +78,11 @@ public final class KnapsackAlgorithm implements Runnable {
 
     }
 
+    /**
+     * The core method of the class. Runs the algorithm and updates the values
+     * table and the calculations area.
+     *
+     */
     @Override
     public void run() {
         try {
@@ -82,9 +91,9 @@ public final class KnapsackAlgorithm implements Runnable {
 
             //MESSAGE: Zero out the first row
             calculationsArea.setText(
-                    "<html><div style=\"font-size: 15pt; text-align: center\">" +
-                    "First, we zero out the first row." +
-                    "</div></html>");
+                    "<html><div style=\"font-size: 15pt; text-align: center\">"
+                    + "First, we zero out the first row."
+                    + "</div></html>");
 
             for (int w = 0; w <= capacity; w++) {
                 setCell(orangeCell, 0, w);
@@ -95,28 +104,28 @@ public final class KnapsackAlgorithm implements Runnable {
             resetCellColors();
 
             calculationsArea.setText(
-                    "<html><div style=\"font-size: 15pt; text-align: center\">" +
-                    "Next we loop through our " + numItems + " items.<br />" +
-                    "to calculate our effecient solution." +
-                    "</div></html>");
+                    "<html><div style=\"font-size: 15pt; text-align: center\">"
+                    + "Next we loop through our " + numItems + " items.<br />"
+                    + "to calculate our efficient solution."
+                    + "</div></html>");
             Thread.sleep(textTime);
 
-            // *** Now do the work!
+            //algorithm begins
             for (int k = 1; k <= numItems; k++) {
-                
+
                 //highlight current item
-                knapsackGUI.setListLine(k-1);
-                
+                knapsackGUI.setListLine(k - 1);
+
                 //if the capacity is larger or equal to the weight of the item
                 for (int w = capacity; w >= weight.get(k); w--) {
 
-                    //
+                    //set the calculations area text
                     calculationsArea.setText(
                             "<html><div style=\"font-size: 15pt; text-align: center\">"
                             + "Item <strong>" + k + "</strong> with weight <strong>" + weight.get(k) + "</strong> is less than the current capacity <strong>" + w + "</strong><br />"
                             + "leaving us with <span style=\"background-color: #00ffff\">" + (w - weight.get(k)) + "</span> space. <br />"
                             + "</div></html>");
-                    
+
                     setCell(cyanCell, k - 1, w - weight.get(k));
 
                     Thread.sleep(textTime);
@@ -125,9 +134,12 @@ public final class KnapsackAlgorithm implements Runnable {
                     setCell(redCell, k, w);
                     setCell(greenCell, k - 1, w);
 
+                    //If the value of the current item plus the max benefit from the space that's left is more than
+                    //the previous max benefit of the item calculated previously, set that weight. Else use the previous
+                    //maximum benefit
                     if (value.get(k) + modelValueAt(k - 1, w - weight.get(k)) > modelValueAt(k - 1, w)) {
 
-                        //message X html formatted
+                        //set the calculations area text
                         calculationsArea.setText(
                                 "<html><div style=\"font-size: 15pt; text-align: center\">"
                                 + "Item: <strong>" + k + "</strong> value: "
@@ -148,8 +160,6 @@ public final class KnapsackAlgorithm implements Runnable {
                         resetCellColors();
 
                     } else {
-
-                        //TODO: FORMAT TEXT IN HTML
                         calculationsArea.setText(
                                 "Item " + k + " value: " + value.get(k) + " + value at (" + (k - 1) + "," + (w - weight.get(k)) + "): " + modelValueAt(k - 1, w - weight.get(k))
                                 + "\nis SMALLER than the value: " + modelValueAt(k - 1, w)
@@ -165,24 +175,21 @@ public final class KnapsackAlgorithm implements Runnable {
                 //remove the colors from all cells
                 resetCellColors();
 
-                //TODO: FORMAT IN HTML
-                
-                if(weight.get(k) - 1 > 5) {
+                if (weight.get(k) - 1 > 5) {
                     weightLeft = 5;
-                }
-                else
+                } else {
                     weightLeft = weight.get(k) - 1;
+                }
                 calculationsArea.setText(
-                        "<html><div style=\"font-size: 15pt; text-align: center\">" +
-                        "The item weight <span style=\"background-color: #fff000\">" + weight.get(k) + "</span> is larger than the space we have left " + //yellow
-                        "<strong>" + weightLeft + "</strong>" +
-                        " so we reuse the maximum values previously calculated." +
-                        "</div></html>"
-                        );
-                
+                        "<html><div style=\"font-size: 15pt; text-align: center\">"
+                        + "The item weight <span style=\"background-color: #fff000\">" + weight.get(k) + "</span> is larger than the space we have left " + //yellow
+                        "<strong>" + weightLeft + "</strong>"
+                        + " so we reuse the maximum values previously calculated."
+                        + "</div></html>");
+
                 //Highlight cell to indicate were to reuse values
                 setCell(redCell, k, weightLeft);
-                
+
                 Thread.sleep(textTime);
 
                 for (int w = 0; w < weight.get(k) && w <= capacity; w++) {
@@ -193,30 +200,29 @@ public final class KnapsackAlgorithm implements Runnable {
                     resetCellColors();
                 }
             }
-            
-            //Loop throught table and highlight items used
+
+            //Loop throught table and highlight items used in the solution
             for (int i = numItems, remainingWeight = capacity; i > 0; i--) {
-                
+
                 if (remainingWeight >= weight.get(i)) {
-                    
-                    if (modelValueAt(i, remainingWeight) == (value.get(i) + modelValueAt(i-1, (remainingWeight - weight.get(i))))) {
+
+                    if (modelValueAt(i, remainingWeight) == (value.get(i) + modelValueAt(i - 1, (remainingWeight - weight.get(i))))) {
                         itemsUsed.add(new Integer(i));
                         remainingWeight -= weight.get(i);
                     }
                 }
             }
-            
-            //TODO: WRITE MESSAGE DISPLAYING FINAL VALUES
+
+            //sort the items used into incremental order
             Collections.sort(itemsUsed);
-            
+
             calculationsArea.setText(
-                    "<html><div style=\"font-size: 15pt; text-align: center\">" +
-                    "The items used in our solution are: " +
-                    itemsUsed.toString() + "<br />" +
-                    "with a total value of: <strong>" + modelValueAt(numItems, capacity) + "</strong>" +
-                    "</div></html>"
-                    );
-            
+                    "<html><div style=\"font-size: 15pt; text-align: center\">"
+                    + "The items used in our solution are: "
+                    + itemsUsed.toString() + "<br />"
+                    + "with a total value of: <strong>" + modelValueAt(numItems, capacity) + "</strong>"
+                    + "</div></html>");
+
             calculationsArea.repaint();
             valueInputList.repaint();
 
@@ -225,19 +231,32 @@ public final class KnapsackAlgorithm implements Runnable {
             System.out.println("Interrupted.");
         }
 
-        //Clear arrays for new values
+        //clear arrays ready for new values
         value.clear();
-        weight.clear();    
+        weight.clear();
         knapsackGUI.setListLine(-1);
     }
 
-    //Gets the value at column x, row y of the model and returns an int
-    private int modelValueAt(int x, int y) {
+    /**
+     * Gets the value at column x, row y of the table model and returns the
+     * result as a primitive instead of an object.
+     *
+     * @param The column of the table
+     * @param The row of the table
+     * @return The value of the cell at that column and row
+     */
+    private int modelValueAt(int column, int row) {
 
-        return (Integer) knapsackTableModel.getValueAt(x, y);
+        return (Integer) knapsackTableModel.getValueAt(column, row);
     }
 
-    //creates a model with capacity * columns and numItems * rows
+    //
+    /**
+     * Creates a new multi-dimensional array of Integer objects to be used to
+     * create a table model with capacity + 1 columns and numItems rows.
+     *
+     * @return Integer[number of items][capacity + 1]
+     */
     private Integer[][] createDataModel() {
 
         knapsackModel = new Integer[value.size()][capacity + 1];
@@ -245,7 +264,9 @@ public final class KnapsackAlgorithm implements Runnable {
         return knapsackModel;
     }
 
-    //set the value of the column headers 1...capacity
+    /**
+     * Creates the column headers required by the table model. From 0...Capacity
+     */
     private void setColumnHeaders() {
 
         columnHeaders = new String[capacity + 1];
@@ -256,14 +277,23 @@ public final class KnapsackAlgorithm implements Runnable {
         }
     }
 
-    //color a cell at x,y position
+    /**
+     * Set colour array at position x,y in the table
+     *
+     * @param colourArray
+     * @param x
+     * @param y
+     */
     private void setCell(int[] array, int x, int y) {
         array[0] = x;
         array[1] = y;
         table.repaint();
     }
 
-    //clear the colors on all cells by setting the color position to -1 (not in JTable)
+    /**
+     * Clears the colours on all cells by setting the color position to -1
+     * (outside of JTable boundaries)
+     */
     private void resetCellColors() {
         redCell[0] = -1;
         redCell[1] = -1;
@@ -280,7 +310,11 @@ public final class KnapsackAlgorithm implements Runnable {
         table.repaint();
     }
 
-    //set the speed of the animation by changing the sleep ms value
+    /**
+     * Set the speed of the animation by changing the sleep milli-seconds value
+     *
+     * @param speed
+     */
     public void setSpeed(int speed) {
 
         this.speed = speed;
@@ -295,6 +329,10 @@ public final class KnapsackAlgorithm implements Runnable {
         }
     }
 
+    /**
+     * Custom renderer used on the JTable to allow certain cells to be coloured
+     * either red, cyan, green or orange
+     */
     class CustomRenderer extends DefaultTableCellRenderer {
 
         @Override

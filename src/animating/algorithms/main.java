@@ -1,16 +1,14 @@
-/*
- * TODO: License Headers
- */
 package animating.algorithms;
 
 /**
  *
- * @author Ashley Connor (ash.connor@gmail.com)
+ * @author Ashley Connor <ash.connor@gmail.com>
  */
 public class main {
 
     /**
      * @param args the command line arguments
+     * @throws InterruptedException  
      */
     public static void main(String[] args) throws InterruptedException {
         

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package animating.algorithms;
 
 import java.awt.Color;
@@ -13,8 +9,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
- *
- * @author ash
+ * This class contains the code to create the GUI for the Knapsack algorithm
+ * including any data-structures for holding user input, methods to
+ * create test data.
+ * @author Ashley Connor <ash.connor@gmail.com>
  */
 public class Knapsack extends javax.swing.JPanel {
 
@@ -48,7 +46,6 @@ public class Knapsack extends javax.swing.JPanel {
         inputValueList.setCellRenderer(new CustomListRenderer());
     }
 
-    //methods
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -451,11 +448,13 @@ public class Knapsack extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * If the algorithm is running the halt execution, else ignore.
+     * @param ActionEvent
+     */
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        //TODO: CHECK THAT THIS IS RUNNING
-
         //cancel the running of the algorithm
-        if(executor != null) {
+        if (executor != null) {
             executor.shutdownNow();
             JOptionPane.showMessageDialog(this, "Algorithm cancelled.", "Cancelled", JOptionPane.OK_OPTION);
             //clear the data-structures ready for new input
@@ -463,12 +462,17 @@ public class Knapsack extends javax.swing.JPanel {
             weightList.clear();
             ListModel.clear();
             calculationsAreaText.setText("");
-        }  
+        }
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+    /**
+     * Starts the algorithm by creating a new KnapsackAlgorithm object and passing in this GUI.
+     * Checks to see if input is valid before running the algorithm.
+     * @param ActionEvent 
+     */
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
 
-        //FOR TESTING WILL BE REMOVED
+        //if no data is given, use test data
         if (valueList.isEmpty() || weightList.isEmpty()) {
             enterTestData();
         }
@@ -479,7 +483,7 @@ public class Knapsack extends javax.swing.JPanel {
         } else if (valueList.size() < 2) {
             JOptionPane.showMessageDialog(this, "You need to have more than 1 weight/value.", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (capacity < 2) {
-            JOptionPane.showMessageDialog(this, "The capacity should be larger than ", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "The capacity should be larger than " + capacity, "Error", JOptionPane.ERROR_MESSAGE);
         } else {
 
             //TODO Disable buttons until algorithm has finished
@@ -489,13 +493,20 @@ public class Knapsack extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_startButtonActionPerformed
 
+    /**
+     * Add a string representation of the item to the value list and add the
+     * item to the data model.
+     * @param ActionEvent
+     */
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        // add visual representation to jlist and add to alogrithm model
+        
+        // add visual representation to User Input list and add to alogrithm model
         Integer value = (Integer) valueSpinner.getValue();
         Integer weight = (Integer) weightSpinner.getValue();
 
         ListModel.addElement("Value: " + valueSpinner.getValue() + ", Weight: " + weightSpinner.getValue());
 
+        //first item must be null
         if (valueList.isEmpty() && weightList.isEmpty()) {
             valueList.add(null);
             weightList.add(null);
@@ -504,6 +515,11 @@ public class Knapsack extends javax.swing.JPanel {
         weightList.add(weight);
     }//GEN-LAST:event_addButtonActionPerformed
 
+    /**
+     * Removes the selected item(s) from the user input list, if an item is not selected the remove the
+     * last item.
+     * @param ActionEvent
+     */
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
 
         // if an item is not selected then remove the last one
@@ -526,6 +542,11 @@ public class Knapsack extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 
+    /**
+     * When the reset button is pressed all data stores are cleared to allow
+     * new input.
+     * @param ActionEvent 
+     */
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         ListModel.clear();
         valueList.clear();
@@ -533,6 +554,11 @@ public class Knapsack extends javax.swing.JPanel {
         itemsUsed.clear();
     }//GEN-LAST:event_resetButtonActionPerformed
 
+    /**
+     * When the speed slider is moved, the new value is retrieved and set in the
+     * speed attribute
+     * @param ChangeEvent
+     */
     private void speedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_speedSliderStateChanged
         speed = speedSlider.getValue();
         speedValueLabel.setText(speed + "%");
@@ -541,6 +567,11 @@ public class Knapsack extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_speedSliderStateChanged
 
+    /**
+     * When the value of the capacity spinner changes, the corresponding capacity
+     * attribute is updated.
+     * @param ActionEvent 
+     */
     private void capacitySpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_capacitySpinnerStateChanged
         capacity = Integer.parseInt(capacitySpinner.getValue().toString());
     }//GEN-LAST:event_capacitySpinnerStateChanged
@@ -574,64 +605,119 @@ public class Knapsack extends javax.swing.JPanel {
     private javax.swing.JSpinner weightSpinner;
     // End of variables declaration//GEN-END:variables
 
-    //setters and getters
+    /**
+     * Returns the calculations table.
+     * 
+     * @return calculationsTable
+     */
     public JTable getCalculationsTable() {
         return calculationsTable;
     }
 
+    /**
+     * Returns the User Input list.
+     * @return inputValueList
+     */
     public JList getValueInputList() {
         return inputValueList;
     }
 
+    /**
+     * Returns the Calculations Text Pane
+     * @return calculationsAreaText
+     */
     public JTextPane getCalculationsTextPane() {
         return calculationsAreaText;
     }
 
+    /**
+     * Returns the speed
+     * @return speed
+     */
     public int getSpeed() {
         return speed;
     }
 
+    /**
+     * Returns the data structure used to store the values of items.
+     * @return valueList
+     */
     public ArrayList<Integer> getValueList() {
         return valueList;
     }
 
+    /**
+     * Returns the data structure used to store the weight of items.
+     * @return weightList
+     */
     public ArrayList<Integer> getWeightList() {
         return weightList;
     }
 
+    /**
+     * Returns the items used in the solution of the algorithm.
+     * @return itemsUsed
+     */
     public ArrayList<Integer> getItemsUsed() {
         return itemsUsed;
     }
 
+    /**
+     * Returns the capacity of the Knapsack
+     * @return capacity
+     */
     public int getCapacity() {
         return capacity;
     }
 
+    /**
+     * Returns the currently highlighted psuedocode line.
+     * @return pseudoLine
+     */
     public int getPsuedoCodeLine() {
         return psuedoLine;
     }
 
+    /**
+     * Set the highlight position of the psuedocode line.
+     * @param line
+     */
     public void setPsuedoCodeLine(int line) {
         psuedoLine = line;
     }
 
+    /**
+     * Move the highlighted line to the next position
+     */
     public void incPseudoCodeLine() {
         psuedoLine++;
     }
 
+    /**
+     * Return the line currently highlighted in the User Input list
+     * @return listLine
+     */
     public int getListLine() {
         return listLine;
     }
 
+    /**
+     * Set the line to highlight in the User Input list
+     * @param line
+     */
     public void setListLine(int line) {
         listLine = line;
         inputValueList.repaint();
     }
 
+    /**
+     * Enter optional test data into the user input data structure to be used
+     * by the algorithm. Test data will use all of the algorithm, visiting every
+     * conditional branch.
+     */
     private void enterTestData() {
 
         if (valueList.isEmpty() && weightList.isEmpty()) {
-            //Test data
 
             capacity = Integer.parseInt(capacitySpinner.getValue().toString());
 
@@ -664,9 +750,13 @@ public class Knapsack extends javax.swing.JPanel {
                 ListModel.addElement("Value: " + valueList.get(i) + ", Weight: " + weightList.get(i));
             }
         }
-    }   
+    }
 
-//Custom renderer for pseudocode table
+    /**
+     * This custom renderer class highlights lines in the psuedocode
+     * table in red.
+     * 
+     */
     class CustomRenderer extends DefaultTableCellRenderer {
 
         @Override
@@ -681,7 +771,10 @@ public class Knapsack extends javax.swing.JPanel {
         }
     }
 
-//Custom renderer for item list
+    /**
+     * This custom renderer class highlights lines in the items list
+     * table in yellow.
+     */
     class CustomListRenderer extends DefaultListCellRenderer {
 
         @Override
@@ -695,11 +788,13 @@ public class Knapsack extends javax.swing.JPanel {
                 }
                 return c;
             } else {
-                
+
                 if (itemsUsed.contains(new Integer(index + 1))) //JList is 0-indexed
+                {
                     c.setBackground(Color.YELLOW);
-                else
+                } else {
                     c.setBackground(null);
+                }
             }
             return c;
         }

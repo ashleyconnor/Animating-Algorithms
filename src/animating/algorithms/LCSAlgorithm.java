@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package animating.algorithms;
 
 import java.awt.Color;
@@ -13,8 +9,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author ash
+ * This class contains the algorithm used to find the LCS of 2 strings.
+ * @author Ashley Connor <ash.connor@gmail.com>
  */
 public final class LCSAlgorithm implements Runnable {
 
@@ -61,6 +57,10 @@ public final class LCSAlgorithm implements Runnable {
     private final String x, y;
     private int speed;
 
+    /**
+     * 
+     * @param lcsGUI
+     */
     public LCSAlgorithm(LCS lcsGUI) {
 
         this.lcsGUI = lcsGUI;
@@ -142,7 +142,9 @@ public final class LCSAlgorithm implements Runnable {
 
     }
 
-    //THE ALGORITHM
+    /**
+     * The run method runs the algorithm on strings a & b.
+     */
     @Override
     public void run() {
         try {
@@ -281,8 +283,6 @@ public final class LCSAlgorithm implements Runnable {
     /**
      * Computes an LCS of two strings, storing the result in the instance
      * variables. The instance variables are assumed to be already allocated.
-     * Implements the LCS-Length procedure on page 353.
-     *
      * @param x The string <i>X</i>.
      * @param y The string <i>Y</i>.
      */
@@ -332,12 +332,17 @@ public final class LCSAlgorithm implements Runnable {
     /**
      * Returns an LCS of <i>X</i> and <i>Y</i> as a
      * <code>String</code>.
+     * @return 
      */
     @Override
     public String toString() {
         return printLCS(m, n);
     }
 
+    /**
+     * Set the speed attribute.
+     * @param speed
+     */
     public void setSpeed(int speed) {   
         this.speed = speed;
         actionTime = 31250 / speed;
@@ -351,16 +356,32 @@ public final class LCSAlgorithm implements Runnable {
         }
     }
 
+    /**
+     * Get the value of the cell from the table at column x and row y. Return the primitive
+     * integer.
+     * @param x
+     * @param y
+     * @return int
+     */
     private int valueAt(int x, int y) {
 
         return (Integer) coreTable.getValueAt(x, y);
     }
 
+    /**
+     * Set the <code>Integer</code> value Z in the cell at column x and row y
+     * @param z
+     * @param x
+     * @param y 
+     */
     private void setAt(Integer z, int x, int y) {
 
         coreTable.setValueAt(z, x, y);
     }
 
+    /**
+     * Reset all the colours used to highlight the table
+     */
     private void resetCellColors() {
         redCell[0] = -1;
         redCell[1] = -1;
@@ -379,6 +400,13 @@ public final class LCSAlgorithm implements Runnable {
         sideTable.repaint();
     }
 
+    /**
+     * Set colour <code>array</code> at position x,y in the table
+     *
+     * @param colourArray
+     * @param x
+     * @param y
+     */
     private void setCell(int[] cell, int x, int y) {
         cell[0] = x;
         cell[1] = y;
@@ -389,7 +417,7 @@ public final class LCSAlgorithm implements Runnable {
     }
 
     /**
-     * Inner class for a typesafe enum pattern for directions in a
+     * Inner class for a static enum directions in a
      * two-dimensional array.
      */
     private static class Direction {
@@ -420,7 +448,9 @@ public final class LCSAlgorithm implements Runnable {
         }
     }
 
-    //Render used on both Top and Side tables
+    /**
+     * A custom class for highlighting of the top table with a green cell
+     */
     class TopCustomRenderer extends DefaultTableCellRenderer {
 
         @Override
@@ -434,7 +464,9 @@ public final class LCSAlgorithm implements Runnable {
             return e;
         }
     }
-
+    /**
+     * A custom class for highlighting of the side table with a cyan cell 
+     */
     class SideCustomRenderer extends DefaultTableCellRenderer {
 
         @Override
@@ -449,7 +481,9 @@ public final class LCSAlgorithm implements Runnable {
         }
     }
 
-    //Renderer used on core to highlight directions
+    /**
+     * A custom class for highlighting of the core table with a red cell
+     */
     class CoreCustomRenderer extends DefaultTableCellRenderer {
 
         @Override

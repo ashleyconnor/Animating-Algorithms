@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package animating.algorithms;
 
 import javax.swing.UIManager;
 
 /**
- *
- * @author ash
+ * This class represents the menu of all the algorithms in the application.
+ * @author Ashley Connor <ash.connor@gmail.com>
  */
 public class Menu extends javax.swing.JFrame {
 
@@ -139,10 +135,13 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * The LCS button has been clicked, the application loads the LCS GUI class,
+     * removes the menu from the root JFrame and replaces the menu with the LCS GUI.
+     * @param ActionEvent 
+     */
     private void lcsMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lcsMenuButtonActionPerformed
-        // TODO add your handling code here:
         this.remove(menuPanel);
-        this.resize(1024,768);
         this.setLocationRelativeTo(null);
         this.setTitle("Lowest Common Subsequence Algorithm");
         
@@ -152,11 +151,14 @@ public class Menu extends javax.swing.JFrame {
         this.setContentPane(lcs);
         this.repaint();
     }//GEN-LAST:event_lcsMenuButtonActionPerformed
-
+    
+    /**
+     * The Knapsack button has been clicked, the application loads the Knapsack GUI class,
+     * removes the menu from the root JFrame and replaces the menu with the Knapsack GUI.
+     * @param ActionEvent 
+     */
     private void knapsackMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_knapsackMenuButtonActionPerformed
-        // TODO add your handling code here:
         this.remove(menuPanel);
-        this.resize(1024,768);
         this.setLocationRelativeTo(null);
         this.setTitle("Knapsack (0,1) Algorithm");
         
@@ -166,10 +168,13 @@ public class Menu extends javax.swing.JFrame {
         this.repaint();
     }//GEN-LAST:event_knapsackMenuButtonActionPerformed
 
+    /**
+     * The Matrix Chain button has been clicked, the application loads the Matrix Chain GUI class,
+     * removes the menu from the root JFrame and replaces the menu with the Matrix Chain GUI.
+     * @param ActionEvent 
+     */
     private void matrixMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matrixMenuButtonActionPerformed
-        // TODO add your handling code here:
         this.remove(menuPanel);
-        this.resize(1024,768);
         this.setLocationRelativeTo(null);
         this.setTitle("Matrix Chain Multiplication Algorithm");
         

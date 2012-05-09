@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package animating.algorithms;
 
 import java.util.ArrayList;
@@ -10,8 +6,9 @@ import java.util.concurrent.Executors;
 import javax.swing.DefaultListModel;
 
 /**
- *
- * @author ash
+ * This class contains the code to create the GUI for the Matrix Chain algorithm
+ * including any data-structures for holding user input
+ * @author Ashley Connor <ash.connor@gmail.com>
  */
 public class MatrixChain extends javax.swing.JPanel {
     
@@ -480,8 +477,6 @@ public class MatrixChain extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        // TODO add your handling code here:
-        
         inputList.clear();
     }//GEN-LAST:event_resetButtonActionPerformed
 
@@ -519,6 +514,10 @@ public class MatrixChain extends javax.swing.JPanel {
     private javax.swing.JPanel userInputPanel;
     // End of variables declaration//GEN-END:variables
     
+    /**
+     * 
+     * @return
+     */
     public ArrayList<Integer> getInputList() {
         
         return inputList;

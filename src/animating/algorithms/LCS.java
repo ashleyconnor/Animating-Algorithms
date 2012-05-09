@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package animating.algorithms;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
@@ -14,8 +11,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 /**
- *
- * @author ash
+ * This class contains the code to create the GUI for the LCS algorithm
+ * including any data-structures for holding user input.
+ * @author Ashley Connor <ash.connor@gmail.com>
  */
 public class LCS extends javax.swing.JPanel {
 
@@ -32,11 +30,9 @@ public class LCS extends javax.swing.JPanel {
     public LCS() {
         initComponents();
 
-        //Limit input of both strings to 20 chars and exclude whitespace
+        //Limit input of both strings to 13 chars and exclude whitespace
         jTextField1.setDocument(new LimitDocument());
         jTextField2.setDocument(new LimitDocument());
-        
-        //set speed
         speed = 50;
     }
 
@@ -406,16 +402,19 @@ public class LCS extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * When the start button is pressed, get the 2 strings and set them to local
+     * attributes. Run the algorithm if both strings are not empty.
+     * @param ActionEvent 
+     */
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-
-
         //get the values of the strings
         stringA = jTextField1.getText();
         stringB = jTextField2.getText();
 
         //check for empty values in string input fields
         if (stringA.isEmpty() || stringB.isEmpty()) {
-            //show some warning window
+            JOptionPane.showMessageDialog(this, "You cannot run the algorithm with empty values.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             //run the alogrithm
             executor = Executors.newSingleThreadExecutor();
@@ -425,11 +424,20 @@ public class LCS extends javax.swing.JPanel {
 
    }//GEN-LAST:event_startButtonActionPerformed
 
+    /**
+     * Stops the algorithm running
+     * @param ActionEvent
+     */
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         if(executor != null)
             executor.shutdownNow();
    }//GEN-LAST:event_cancelButtonActionPerformed
 
+    /**
+     * When the speed slider is moved, the new value is retrieved and set in the
+     * speed attribute
+     * @param ChangeEvent
+     */
     private void speedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_speedSliderStateChanged
         speed = speedSlider.getValue();
         speedValueLabel.setText(speed + "%");
@@ -438,13 +446,19 @@ public class LCS extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_speedSliderStateChanged
 
+    /**
+     * Capitalise input of characters entered for string A 
+     * @param KeyEvent
+     */
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-
         jTextField1.setText(jTextField1.getText().toUpperCase());
     }//GEN-LAST:event_jTextField1KeyReleased
 
+    /**
+     * Capitalise input of characters entered for string B
+     * @param KeyEvent
+     */
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
-
         jTextField2.setText(jTextField2.getText().toUpperCase());
     }//GEN-LAST:event_jTextField2KeyReleased
 
@@ -477,40 +491,74 @@ public class LCS extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     
     
+    /**
+     * Returns the Calculations Text Pane
+     * @return calculationsAreaText
+     */
     public JTextPane getCalculationsTextPane() {
         return calculationsTextPane;
     }
     
+    /**
+     * Returns the JTable that contains the first string characters.
+     * @return topTable
+     */
     public JTable getTopTable() {
         return topTable;
     }
     
+    /**
+     * Returns the JTable that contains the second string characters.
+     * @return sideTable
+     */
     public JTable getSideTable() {
         return sideTable;
     }
     
+   /**
+     * Returns the calculations table.
+     * @return calculationsTable
+     */
     public JTable getCalculationsTable() {
         return calculationsTable;
     }
     
+    /**
+     * Returns the first string used in the algorithm (string A)
+     * @return stringA
+     */
     public String getStringA() {
         return stringA;
     }
 
+    /**
+     * Returns the second string used in the algorithm (string B)
+     * @return
+     */
     public String getStringB() {
         return stringB;
     }
 
+    /**
+     * Returns the speed the speed slider is set at
+     * @return speed
+     */
+    public int getSpeed() {
+        return speed;
+    }
+    
+    /**
+     * Set the menu attribute so GUI can return to main menu
+     * @param menuPanel 
+     */
     public void setMenu(JPanel menuPanel) {
         this.menuPanel = menuPanel;
     }
 
-    int getSpeed() {
-        return speed;
-    }
-
-    //limits the input of the strings to `limit` characters and excludes whitespace
-    //TODO: This is buggy must fix
+    /**
+     * A custom class that constrains user input 
+     * limiting the input of the strings to 13 characters and excludes whitespace 
+     */
     private class LimitDocument extends PlainDocument {
 
         @Override

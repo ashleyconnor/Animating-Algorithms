@@ -1,15 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package animating.algorithms;
 
 import java.util.ArrayList;
-import javax.swing.JPanel;
 
 /**
- *
- * @author ash
+ * This class contains the Matrix Chain algorithm
+ * @author Ashley Connor <ash.connor@gmail.com>
  */
 public final class MatrixChainAlgorithm implements Runnable {
 
@@ -44,6 +39,10 @@ public final class MatrixChainAlgorithm implements Runnable {
     private int[] p;
     private ArrayList<Integer> inputList;
 
+    /**
+     * 
+     * @param matrixGUI
+     */
     public MatrixChainAlgorithm(MatrixChain matrixGUI) {
 
         this.matrixGUI = matrixGUI;
@@ -128,17 +127,25 @@ public final class MatrixChainAlgorithm implements Runnable {
      * Returns a
      * <code>String</code> describing an optimal parenthesization of the entire
      * matrix chain.
+     * @return 
      */
     @Override
     public String toString() {
         return printOptimalParens(1, n);
     }
 
+    /**
+     * 
+     */
     @Override
     public void run() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    /**
+     * 
+     * @param speed
+     */
     public void setSpeed(int speed) {
         this.speed = speed;
         actionTime = 31250 / speed;
